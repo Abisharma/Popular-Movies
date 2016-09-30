@@ -94,9 +94,9 @@ public class TopRatedFagment extends Fragment    implements PopularMovieAdapter.
             @Override
             public void onResponse(JSONObject response) {
                 listMovies = parseJsonResponse(response);
-
                 popularMovieAdapter.setMovieList(listMovies);
-               // popularMovieAdapter.notifyItemInserted(listMovies.size());
+                //popularMovieAdapter.notifyItemInserted(listMovies.size());
+
 
             }
         }, new Response.ErrorListener() {
@@ -105,21 +105,31 @@ public class TopRatedFagment extends Fragment    implements PopularMovieAdapter.
             }
         });
 
-
         //popularMovieAdapter.notifyDataSetChanged();
-        requestQueue.add(request);
+        requestQueue.add(request)    ;
+
+
+
 
     }
 
     public ArrayList<Movie> parseJsonResponse(JSONObject response) {
 
+        //ArrayList<Movie> listMovies= new ArrayList<>();
+
+        {
             if (response == null || response.length() == 0)
                 return null;
+        }
+
         if(response != null && response.length() > 0){
 
 
             try {
                 pages= response.getInt("total_pages");
+
+
+                //   if (response.has("results")) {
 
                 JSONArray arrayMovieResults = response.getJSONArray("results");
                 for (int i1 = 0; i1<arrayMovieResults.length(); i1++) {
@@ -128,7 +138,12 @@ public class TopRatedFagment extends Fragment    implements PopularMovieAdapter.
                     int id=currentMovie.getInt("id");
                     String sId=currentMovie.getString("id");
                     title = currentMovie.getString("title");
+                    //language
                     String lang = currentMovie.getString("original_language");
+                    String lang_final;
+                    if (lang.equals("en"))
+                        lang_final = "English";
+                    else lang_final = "Not English";
                     //oveview
                     overview = currentMovie.getString("overview");
                     //release date
@@ -145,23 +160,19 @@ public class TopRatedFagment extends Fragment    implements PopularMovieAdapter.
                         isAdult = "No";
                     } else
                         isAdult = "Yes";
-
-                    //appending all the movies  one by one
+                    //appending all the movies which we are getiing one by one
                     Movie movie = new Movie();
                     movie.setStringid(sId);
                     movie.setUrlSelf(image_whole_Url);
 
                     listMovies.add(movie);
                 }
-                if(pageCount<pages) {
-                    pageCount++;
-                    sendJsonRequest(pageCount);
-                };
+
+
             } catch (JSONException e){}
 
 
         }
-
         return listMovies;
     }
 
@@ -180,23 +191,24 @@ public class TopRatedFagment extends Fragment    implements PopularMovieAdapter.
         }
         listMoviesHits.setLayoutManager(gridLayoutManager);
         popularMovieAdapter=new PopularMovieAdapter(getActivity());
+
         popularMovieAdapter.setClickListener(this);
 
         listMoviesHits.setAdapter(popularMovieAdapter);
 
 
         sendJsonRequest(1);
-
         listMoviesHits.addOnScrollListener(new EndlessRecyclerOnScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
                 int lastFirstVisiblePosition=((GridLayoutManager)listMoviesHits.getLayoutManager()).findFirstVisibleItemPosition();
                 ( (GridLayoutManager)listMoviesHits.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-
-                sendJsonRequest(1);
-
-                final Movie movie= new Movie();
-
+                if (current_page==1)
+                    sendJsonRequest(1);
+                if(pageCount<pages) {
+                    pageCount++;
+                    sendJsonRequest(pageCount);
+                }
 
             }
         });
@@ -217,6 +229,7 @@ public class TopRatedFagment extends Fragment    implements PopularMovieAdapter.
         movie=this.listMovies.get(position);
         i.putExtra("stringId",movie.getStringid());
         i.putExtra("urlSelf",movie.getUrlSelf());
+        i.putExtra("fragment","popular");
         startActivity(i);
 
 

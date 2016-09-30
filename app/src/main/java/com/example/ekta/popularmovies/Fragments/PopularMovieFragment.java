@@ -170,22 +170,12 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
 
                     listMovies.add(movie);
                 }
-                if(pageCount<pages) {
-                    pageCount++;
-                    sendJsonRequest(pageCount);
-                }
 
-//adding the movies to the array
-                //L.t(getActivity(), listMovies.toString());
+
             } catch (JSONException e){}
 
 
         }
-
-
-
-
-
         return listMovies;
     }
 
@@ -216,10 +206,12 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
             public void onLoadMore(int current_page) {
                 int lastFirstVisiblePosition=((GridLayoutManager)listMoviesHits.getLayoutManager()).findFirstVisibleItemPosition();
                 ( (GridLayoutManager)listMoviesHits.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-                sendJsonRequest(1);
-
-                final Movie movie= new Movie();
-
+                if (current_page==1)
+                    sendJsonRequest(1);
+                if(pageCount<pages) {
+                    pageCount++;
+                    sendJsonRequest(pageCount);
+                }
 
             }
         });
