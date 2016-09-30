@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:background="#80000000"
+    >
+    <ListPreference
+        android:id="@android:id/list"
+        android:title="Sort"
+        android:key="Sort"
+        android:defaultValue="Popular"
+        android:entryValues="@array/pref_values"
+        android:entries="@array/pref_options"
+        />
+
+</PreferenceScreen>
