@@ -36,7 +36,6 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         layoutInflater = LayoutInflater.from(contextt);
         volleySingleton = VolleySingleton.getInstance(context);
         imageLoader = volleySingleton.getmImageLoader();
-        // this.context = context;
         this.movie = movie;
 
     }
@@ -46,8 +45,6 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         RecyclerView.ViewHolder viewHolder;
-
-
         View view = layoutInflater.inflate(R.layout.movie_detail_holder, parent, false);
         viewHolder = new MovieDetailViewHolder(view);
         return viewHolder;
