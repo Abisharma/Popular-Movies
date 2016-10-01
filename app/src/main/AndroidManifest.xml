@@ -13,7 +13,8 @@
         <activity
             android:name=".Acitivities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +25,8 @@
             android:name=".Acitivities.MovieDetailActivity"
             android:label="Detail"
             android:parentActivityName=".Acitivities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Acitivities.MainActivity" />
@@ -33,12 +35,13 @@
             android:name=".Acitivities.SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".Acitivities.MainActivity"
-            android:theme="@style/SettingsTheme">
+            android:theme="@style/SettingsTheme"
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Acitivities.MainActivity" />
         </activity>
-        <activity android:name=".Acitivities.Main2Activity"></activity>
+
     </application>
 
 </manifest>

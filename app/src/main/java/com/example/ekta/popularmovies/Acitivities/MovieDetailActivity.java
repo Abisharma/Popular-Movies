@@ -21,8 +21,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         movieDetail = new MovieDetailFragment();
         movieDetail.setArguments(bundle);
-        Intent i= getIntent();
-        String s= i.getStringExtra("stringId");
+        Intent i = getIntent();
+        String s = i.getStringExtra("stringId");
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movie_detail_container, movieDetail)

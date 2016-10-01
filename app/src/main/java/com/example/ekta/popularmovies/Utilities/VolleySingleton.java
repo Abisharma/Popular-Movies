@@ -11,55 +11,51 @@ import com.android.volley.toolbox.Volley;
 /**
  * Created by Ekta on 28-09-2016.
  */
-public class VolleySingleton{
-        private static VolleySingleton sInstance=null;
-        private RequestQueue mRequestQueue;
-        private ImageLoader mImageLoader;
+public class VolleySingleton {
+    private static VolleySingleton sInstance = null;
+    private RequestQueue mRequestQueue;
+    private ImageLoader mImageLoader;
 
 
-        private VolleySingleton(Context context){
-            mRequestQueue= Volley.newRequestQueue(context);
+    private VolleySingleton(Context context) {
+        mRequestQueue = Volley.newRequestQueue(context);
 
 
-            mImageLoader= new ImageLoader(mRequestQueue,new ImageLoader.ImageCache(){
+        mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
 
 
+            private LruCache<String, Bitmap> cache = new LruCache<>((int) Runtime.getRuntime().maxMemory() / 1024 / 8);
 
 
-                private LruCache<String,Bitmap> cache= new LruCache<>((int)Runtime.getRuntime().maxMemory()/1024/8);
-
-
-                @Override
-                public Bitmap getBitmap(String url) {
-                    return cache.get(url);
-                }
-
-                @Override
-                public void putBitmap(String url, Bitmap bitmap) {
-
-                    cache.put(url,bitmap);
-                }
-            });
-        }
-
-
-        public static VolleySingleton getInstance(Context context){
-
-            if(sInstance==null)
-            {
-                sInstance= new VolleySingleton(context);
-
+            @Override
+            public Bitmap getBitmap(String url) {
+                return cache.get(url);
             }
-            return sInstance;
-        }
 
-        public RequestQueue getmRequestQueue()
-        {
-            return mRequestQueue;
-        }
+            @Override
+            public void putBitmap(String url, Bitmap bitmap) {
 
-        public ImageLoader getmImageLoader(){
-            return mImageLoader;
+                cache.put(url, bitmap);
+            }
+        });
+    }
+
+
+    public static VolleySingleton getInstance(Context context) {
+
+        if (sInstance == null) {
+            sInstance = new VolleySingleton(context);
+
         }
+        return sInstance;
+    }
+
+    public RequestQueue getmRequestQueue() {
+        return mRequestQueue;
+    }
+
+    public ImageLoader getmImageLoader() {
+        return mImageLoader;
+    }
 }
 

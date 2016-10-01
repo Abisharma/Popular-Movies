@@ -4,7 +4,7 @@ package com.example.ekta.popularmovies.Model;
  * Created by Ekta on 28-09-2016.
  */
 
-public class Movie  {
+public class Movie {
     private int dbId;
     private int id;
     String title;
@@ -18,30 +18,23 @@ public class Movie  {
     private String genre;
     private String overview;
 
-
-
-
-
-
-
     public Movie() {
 
     }
 
-    public Movie(int id,String title,String urlSelf,String coverImage,String audienceScore,String popularity,String tagLine,String releaseDate,String duration,String genre,String overview)
-    {
-        this.id=id;
-        this.title=title;
-        this.urlSelf=urlSelf;
-        this.coverImage=coverImage;
-        this.tagLine=tagLine;
-        this.audienceScore=audienceScore;
-        this.popularity=popularity;
-        this.tagLine=tagLine;
-        this.releaseDateTheater=releaseDate;
-        this.duration=duration;
-        this.genre=genre;
-        this.overview=overview;
+    public Movie(int id, String title, String urlSelf, String coverImage, String audienceScore, String popularity, String tagLine, String releaseDate, String duration, String genre, String overview) {
+        this.id = id;
+        this.title = title;
+        this.urlSelf = urlSelf;
+        this.coverImage = coverImage;
+        this.tagLine = tagLine;
+        this.audienceScore = audienceScore;
+        this.popularity = popularity;
+        this.tagLine = tagLine;
+        this.releaseDateTheater = releaseDate;
+        this.duration = duration;
+        this.genre = genre;
+        this.overview = overview;
 
 
     }
@@ -58,10 +51,18 @@ public class Movie  {
     public String getReleaseDateTheater() {
         return releaseDateTheater;
     }
-    public void setReleaseDateTheater(String releaseDateTheater){this.releaseDateTheater=releaseDateTheater;}
-    public void setOverview(String overview){this.overview=overview;}
 
-    public String getOverview(){  return overview;}
+    public void setReleaseDateTheater(String releaseDateTheater) {
+        this.releaseDateTheater = releaseDateTheater;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
 
     public String getAudienceScore() {
         return audienceScore;
@@ -72,10 +73,6 @@ public class Movie  {
     }
 
 
-
-
-
-
     public String getUrlSelf() {
         return urlSelf;
     }
@@ -83,81 +80,71 @@ public class Movie  {
     public void setUrlSelf(String urlSelf) {
         this.urlSelf = urlSelf;
     }
-    public void setTagLine(String tagLine){
+
+    public void setTagLine(String tagLine) {
         this.tagLine = tagLine;
     }
-    public String getTagLine(){
+
+    public String getTagLine() {
         return tagLine;
     }
 
 
-    public void setReleasedate(String releaseDate){
+    public void setReleasedate(String releaseDate) {
         this.releaseDateTheater = releaseDate;
     }
-    public String getReleasedate(){
+
+    public String getReleasedate() {
         return releaseDateTheater;
     }
 
-    public void setGenre(String genre){
+    public void setGenre(String genre) {
         this.genre = genre;
     }
-    public String getGenre(){
+
+    public String getGenre() {
         return genre;
     }
 
-    public void setImage(String image){
+    public void setImage(String image) {
         this.urlSelf = urlSelf;
     }
-    public String getImage(){
+
+    public String getImage() {
         return urlSelf;
     }
 
-    public void setCoverImage(String coverImage){
+    public void setCoverImage(String coverImage) {
         this.coverImage = coverImage;
     }
-    public String getCoverImage(){
+
+    public String getCoverImage() {
         return coverImage;
     }
 
-    public void setDuration(String duration){
+    public void setDuration(String duration) {
         this.duration = duration;
     }
-    public String getDuration(){
+
+    public String getDuration() {
         return duration;
     }
 
-    public void setPopularity(String popularity){
+    public void setPopularity(String popularity) {
         this.popularity = popularity;
     }
-    public String getPopularity(){
+
+    public String getPopularity() {
         return popularity;
     }
 
-
-
-
-    public void setStringid(String id){
-        this.id=Integer.parseInt(id);
+    public void setStringid(String id) {
+        this.id = Integer.parseInt(id);
     }
-    public String getStringid(){
+
+    public String getStringid() {
         return String.valueOf(id);
     }
-
-
-
-    @Override
-    public String toString() {
-        return "\nID: " + id +
-                "\nTitle " + title +
-                "\nDate " + releaseDateTheater +
-                "\nSynopsis " +overview +
-                "\nScore " + audienceScore +
-
-
-                "\n";
-    }
-
-
 
 
 }

@@ -18,18 +18,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharePrefs= PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharePrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String option=  sharePrefs.getString(getString(R.string.pref_sort),getString(R.string.pref_default));
+        String option = sharePrefs.getString(getString(R.string.pref_sort), getString(R.string.pref_default));
         PopularMovieFragment fragment;
         setContentView(R.layout.activity_main);
 
-        if(option.equals("Popular")) {
+        if (option.equals("Popular")) {
             fragment = PopularMovieFragment.newInstance("0", "");
             getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
-        }
-        else
-        {
+        } else {
             fragment = PopularMovieFragment.newInstance("1", "");
             getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
         }
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            startActivity(new Intent(this,SettingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 

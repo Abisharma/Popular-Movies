@@ -37,6 +37,7 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
+
         View view = layoutInflater.inflate(R.layout.movie_detail_holder, parent, false);
         viewHolder = new MovieDetailViewHolder(view);
         return viewHolder;

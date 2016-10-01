@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by Ekta on 28-09-2016.
  */
-public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapter.ViewHolderBoxOffice>  {
+public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapter.ViewHolderBoxOffice> {
 
 
     public VolleySingleton volleySingleton;
@@ -32,7 +32,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     public ClickListener clickListener;
 
 
-    public PopularMovieAdapter(ArrayList<Movie> listMovies,Context context) {
+    public PopularMovieAdapter(ArrayList<Movie> listMovies, Context context) {
         this.context = context;
         this.listMovies = listMovies;
         layoutInflater = LayoutInflater.from(context);
@@ -52,7 +52,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     public void onBindViewHolder(final ViewHolderBoxOffice holder, int position) {
 
         Movie currentMovie = listMovies.get(position);
-       final String url = currentMovie.getUrlSelf();
+        final String url = currentMovie.getUrlSelf();
         if (url != null) {
 
             Glide.clear(holder.movieImage);
@@ -67,8 +67,8 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     }
 
 
-    public void setClickListener(ClickListener clickListener){
-        this.clickListener=clickListener;
+    public void setClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -77,9 +77,9 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     }
 
 
-
     class ViewHolderBoxOffice extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView movieImage;
+
         public ViewHolderBoxOffice(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -88,15 +88,15 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
         @Override
         public void onClick(View v) {
-            if(clickListener!=null){
+            if (clickListener != null) {
 
-                clickListener.itemClicked(v,getPosition());
+                clickListener.itemClicked(v, getPosition());
             }
 
         }
     }
 
-    public interface ClickListener{
-        void itemClicked(View view,int position);
+    public interface ClickListener {
+        void itemClicked(View view, int position);
     }
 }

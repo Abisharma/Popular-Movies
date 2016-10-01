@@ -1,23 +1,20 @@
 package com.example.ekta.popularmovies.Fragments;
 
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import static com.example.ekta.popularmovies.Utilities.Constants.*;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,10 +26,10 @@ import com.example.ekta.popularmovies.Model.Movie;
 import com.example.ekta.popularmovies.Adapters.MovieDetailAdapter;
 import com.example.ekta.popularmovies.R;
 import com.example.ekta.popularmovies.Utilities.VolleySingleton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
 
 public class MovieDetailFragment extends Fragment {
     public ImageLoader imageLoader;
@@ -44,9 +41,8 @@ public class MovieDetailFragment extends Fragment {
     TextView tvDuration;
     String imagePostUrl = "";
     ImageView itemIcon2;
-    String movieID;
-    String fragmentValue;
-    ImageView image;
+    public String moviedId = "";
+
     String imageString;
     String genres = "";
     String tagline = "";
@@ -80,10 +76,9 @@ public class MovieDetailFragment extends Fragment {
         requestQueue = volleySingleton.getmRequestQueue();
         movieImage = (ImageView) view.findViewById(R.id.ivMovieImage);
         imageLoader = volleySingleton.getmImageLoader();
-        movieID = getArguments().getString("stringId");
+        moviedId = getArguments().getString("stringId");
         urlSelf = getArguments().getString("urlSelf");
-        fragmentValue = getArguments().getString("fragment");
-        sendjsonRequest(movieID);
+        sendjsonRequest(moviedId);
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,18 +100,17 @@ public class MovieDetailFragment extends Fragment {
     }
 
     int imageRequest(String imageString, Context context) {
-if(context!=null) {
-    Glide.clear(movieImage);
-    Glide
-            .with(this)
-            .load(imageString)
-            .placeholder(android.R.color.transparent)
-            .crossFade()
-            .into(movieImage);
-}
+        if (context != null) {
+            Glide.clear(movieImage);
+            Glide
+                    .with(this)
+                    .load(imageString)
+                    .placeholder(android.R.color.transparent)
+                    .crossFade()
+                    .into(movieImage);
+        }
         return 1;
     }
-
 
 
     public void sendjsonRequest(final String id) {
@@ -129,7 +123,7 @@ if(context!=null) {
             @Override
             public void onResponse(JSONObject response) {
                 movieInfo = parseJsonResponse(response);
-                mAdapter = new MovieDetailAdapter(movie,getActivity());
+                mAdapter = new MovieDetailAdapter(movie, getActivity());
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
 
@@ -179,7 +173,7 @@ if(context!=null) {
                 DurationString = hours + " hr " + minutes + " min";
 
 
-                imageString= COVER_INMAGE + imagePostUrl;
+                imageString = COVER_INMAGE + imagePostUrl;
 
                 final JSONArray genreArray = response.getJSONArray("genres");
                 for (int i = 0; i < genreArray.length(); i++) {
@@ -189,8 +183,8 @@ if(context!=null) {
                     else
                         genres += genre + ".";
                 }
-                int a = imageRequest(imageString,getActivity());
-                movie.setStringid(movieID);
+                int a = imageRequest(imageString, getActivity());
+                movie.setStringid(moviedId);
                 movie.setTitle(titleStr);
                 movie.setCoverImage(imageString);
                 movie.setUrlSelf(urlSelf);

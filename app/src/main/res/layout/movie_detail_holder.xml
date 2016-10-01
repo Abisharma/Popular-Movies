@@ -1,144 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/tvMovieTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Movie name"
-        android:textSize="24sp"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold|italic"
         android:layout_centerVertical="true"
-        android:layout_marginTop="10sp"
-        android:layout_marginRight="50sp"
+        android:layout_marginBottom="10sp"
         android:layout_marginLeft="15sp"
-        android:layout_marginBottom="10sp"/>
+        android:layout_marginRight="50sp"
+        android:layout_marginTop="10sp"
+        android:text="Movie name"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
     <TextView
 
         android:id="@+id/tvMovieTagLine"
         style="@style/DetailTheme"
-        android:textStyle="bold"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:textStyle="bold" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <TextView
-        android:id="@+id/tvMovieDurationText"
-        style="@style/DetailThemeLabels"
-        android:text="@string/duration"
-        />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvMovieDuration"
-        android:text="Duration"
-        style="@style/DetailTheme"
-        android:layout_toRightOf="@id/tvMovieDurationText"
-        />
+        <TextView
+            android:id="@+id/tvMovieDurationText"
+            style="@style/DetailThemeLabels"
+            android:text="@string/duration" />
+
+        <TextView
+            android:id="@+id/tvMovieDuration"
+            style="@style/DetailTheme"
+            android:layout_toRightOf="@id/tvMovieDurationText"
+            android:text="Duration" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <TextView
-        android:id="@+id/tvMovieReleaseDateext"
-        style="@style/DetailThemeLabels"
-        android:text="@string/relaseDate"
+        android:layout_height="wrap_content">
 
-        />
+        <TextView
+            android:id="@+id/tvMovieReleaseDateext"
+            style="@style/DetailThemeLabels"
+            android:text="@string/relaseDate"
+
+            />
+
         <TextView
             android:id="@+id/tvMovieReleaseDate"
-            android:text="Release Date"
             style="@style/DetailTheme"
             android:layout_toRightOf="@id/tvMovieReleaseDateext"
+            android:text="Release Date" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvMovieGenreText"
+            style="@style/DetailThemeLabels"
+            android:text="@string/genre"
+
             />
-</RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvMovieGenre"
+            style="@style/DetailTheme"
+            android:layout_toRightOf="@id/tvMovieGenreText"
+            android:text="Genre" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <TextView
-        android:id="@+id/tvMovieGenreText"
-        style="@style/DetailThemeLabels"
-        android:text="@string/genre"
+        android:layout_height="wrap_content">
 
-        />
-
-    <TextView
-        android:id="@+id/tvMovieGenre"
-        android:text="Genre"
-        android:layout_toRightOf="@id/tvMovieGenreText"
-        style="@style/DetailTheme"
-       />
-</RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
         <TextView
             android:id="@+id/tvMovieSynopsisText"
             style="@style/DetailThemeLabels"
             android:text="@string/synopsis"
 
             />
+
         <TextView
             android:id="@+id/tvMovieSynopsis"
-            android:text="Synopsis"
+            style="@style/DetailTheme"
             android:layout_below="@+id/tvMovieSynopsisText"
-          style="@style/DetailTheme"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            />
+            android:text="Synopsis" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="55dp">
-    <RelativeLayout
-        android:id="@+id/rvMoviePopularity"
-        android:gravity="center"
-        style="@style/DetailTheme"
-        >
+
+        <RelativeLayout
+            android:id="@+id/rvMoviePopularity"
+            style="@style/DetailTheme"
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/tvMoviePopularityText"
-                android:text="@string/popularity"
                 style="@style/DetailThemeLabels"
-               />
-    <TextView
-        android:id="@+id/tvMoviePopularity"
-        android:layout_below="@id/tvMoviePopularityText"
-        style="@style/DetailTheme"
-        android:layout_marginLeft="50dp"
-        />
+                android:text="@string/popularity" />
+
+            <TextView
+                android:id="@+id/tvMoviePopularity"
+                style="@style/DetailTheme"
+                android:layout_below="@id/tvMoviePopularityText"
+                android:layout_marginLeft="50dp" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/rvMoviePopularity">
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@id/rvMoviePopularity"
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/tvMovieRatingText"
-              style="@style/DetailThemeLabels"
-                android:text="@string/rating"/>
-    <TextView
-        android:id="@+id/tvMovieRating"
-      style="@style/DetailTheme"
-        android:layout_marginLeft="30dp"
-      android:layout_below="@id/tvMovieRatingText"
-        />
+                style="@style/DetailThemeLabels"
+                android:text="@string/rating" />
+
+            <TextView
+                android:id="@+id/tvMovieRating"
+                style="@style/DetailTheme"
+                android:layout_below="@id/tvMovieRatingText"
+                android:layout_marginLeft="30dp" />
         </RelativeLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>
