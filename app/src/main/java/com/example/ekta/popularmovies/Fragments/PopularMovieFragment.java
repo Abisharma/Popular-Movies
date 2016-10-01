@@ -9,10 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -49,7 +51,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     private String mParam2;
     private RecyclerView recyclerView;
     String image_whole_Url;
-    int pages;
+    int pages,scrollPosition;
     ProgressBar pbLoader;
     Movie movie;
     String image_post_URL;
@@ -154,6 +156,14 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView = (RecyclerView) view.findViewById(R.id.listMoviesHits);
         recyclerView.setHasFixedSize(true);
+
+        Bundle bundle = this.getArguments();
+        String position = bundle.getString("scrollPosition");
+        if (((GridLayoutManager) recyclerView.getLayoutManager()) != null) {
+            recyclerView.scrollToPosition(Integer.parseInt(position));
+        }
+
+
         pbLoader = (ProgressBar) view.findViewById(R.id.pbLoader);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -172,6 +182,17 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
             public void onLoadMore(int current_page) {
                 int lastFirstVisiblePosition = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 ((GridLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
+
+
+                if (((GridLayoutManager) recyclerView.getLayoutManager()) != null) {
+                    scrollPosition = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                    PopularMovieFragment fragment= new PopularMovieFragment();
+                    Bundle bundle = new Bundle();
+                    Log.v("here", Integer.toString(scrollPosition));
+                    bundle.putString("scrollPosition", Integer.toString(scrollPosition));
+                    fragment.setArguments(bundle);
+                }
+
                 if (current_page == 1)
                     sendJsonRequest(1);
                 if (pageCount < pages) {
@@ -179,8 +200,11 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
                     sendJsonRequest(pageCount);
                 }
 
+
             }
+
         });
+
         return view;
 
     }
