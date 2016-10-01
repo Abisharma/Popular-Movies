@@ -26,55 +26,36 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private ArrayList<String> reviewsInfo = new ArrayList<>();
     private LayoutInflater layoutInflater;
     android.content.Context contextt;
-    private VolleySingleton volleySingleton;
-    private ImageLoader imageLoader;
-    private String dataZero;
-    int a;
 
     public MovieDetailAdapter(Movie movie, Context context) {
         contextt = context;
         layoutInflater = LayoutInflater.from(contextt);
-        volleySingleton = VolleySingleton.getInstance(context);
-        imageLoader = volleySingleton.getmImageLoader();
         this.movie = movie;
-
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         RecyclerView.ViewHolder viewHolder;
         View view = layoutInflater.inflate(R.layout.movie_detail_holder, parent, false);
         viewHolder = new MovieDetailViewHolder(view);
         return viewHolder;
-
-
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-
-
         ((MovieDetailViewHolder) holder).movieName.setText(movie.getTitle());
         if (!movie.getTagLine().equals("")) {
             ((MovieDetailViewHolder) holder).movieTagLine.setText("\" " + movie.getTagLine() + " \"");
         } else if (movie.getTagLine().equals("")) {
             ((MovieDetailViewHolder) holder).movieTagLine.setVisibility(View.GONE);
         }
-        ((MovieDetailViewHolder) holder).movieReleaseDate.setText(movie.getReleasedate());//+ "(" + movie.getStatus() + ")");
-
+       ((MovieDetailViewHolder) holder).movieReleaseDate.setText(movie.getReleasedate());
         String durationInMin = movie.getDuration();
-
         ((MovieDetailViewHolder) holder).movieDuration.setText(durationInMin);
-
-        ((MovieDetailViewHolder) holder).movieGenre.setText("Genre: " + movie.getGenre());
-        //  ((MovieDetailViewHolder) holder).movieLanguage.setText(String.format("Language: " + movie.getLanguage()));
-        ((MovieDetailViewHolder) holder).moviePopularity.setText(movie.getPopularity());
+        ((MovieDetailViewHolder) holder).movieGenre.setText(movie.getGenre());
+        ((MovieDetailViewHolder) holder).moviePopularity.setText(String.format("%.1f", Float.parseFloat(movie.getPopularity())) + "");
         ((MovieDetailViewHolder) holder).movieRating.setText(String.format((movie.getAudienceScore()) + ""));
         ((MovieDetailViewHolder) holder).movieSynopsis.setText(movie.getOverview());
-
-
     }
 
     @Override
@@ -86,8 +67,6 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     class MovieDetailViewHolder extends RecyclerView.ViewHolder {
         private TextView movieName, movieTagLine, movieReleaseDate, movieDuration, movieGenre, moviePopularity, movieSynopsis, movieRating, movieLanguage;
         public ImageView movieImage;
-
-
         public MovieDetailViewHolder(View itemView) {
             super(itemView);
             // context = itemView.getContext();
@@ -100,14 +79,7 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             moviePopularity = (TextView) itemView.findViewById(R.id.tvMoviePopularity);
             movieRating = (TextView) itemView.findViewById(R.id.tvMovieRating);
             movieSynopsis = (TextView) itemView.findViewById(R.id.tvMovieSynopsis);
-            //    movieLanguage = (TextView) itemView.findViewById(R.id.tvMovieLanguage);
-            // movieTitle = (TextView) itemView.findViewById(R.id.movieTitle);
+
         }
-
-
-        public String getTitle(String title) {
-            return title;
-        }
-
     }
 }

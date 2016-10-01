@@ -41,12 +41,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         notifyDataSetChanged();
     }
 
-    public void setMovieList(ArrayList<Movie> listMovies) {
-        this.listMovies = listMovies;
-      // notifyItemChanged(listMovies.size());
-        //notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolderBoxOffice onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.popular_movies, parent, false);
@@ -58,42 +52,25 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     public void onBindViewHolder(final ViewHolderBoxOffice holder, int position) {
 
         Movie currentMovie = listMovies.get(position);
-
-        // holder.movieTitle.setText(currentMovie.getTitle());
        final String url = currentMovie.getUrlSelf();
         if (url != null) {
 
-            imageLoader.get(url, new ImageLoader.ImageListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-                    holder.movieImage.setImageBitmap(bitmap);
-                }
-
-                @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                   // holder.movieImage.setImageResource(android.R.color.transparent);
-                   // holder.movieImage.setImageBitmap(response.getBitmap());
-                    Glide.clear(holder.movieImage);
-                    Glide
-                            .with(context)
-                            .load(url)
-                            .placeholder(android.R.color.transparent)
-                            .crossFade()
-                            .into(holder.movieImage);
-                }
-            });
+            Glide.clear(holder.movieImage);
+            Glide
+                    .with(context)
+                    .load(url)
+                    .placeholder(android.R.color.transparent)
+                    .crossFade()
+                    .into(holder.movieImage);
 
         }
-
-
     }
 
 
     public void setClickListener(ClickListener clickListener){
-
         this.clickListener=clickListener;
     }
+
     @Override
     public int getItemCount() {
         return listMovies.size();
@@ -102,32 +79,15 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
 
     class ViewHolderBoxOffice extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-
         public ImageView movieImage;
-        // public TextView movieTitle;
-
-
         public ViewHolderBoxOffice(View itemView) {
             super(itemView);
-            // context = itemView.getContext();
             itemView.setOnClickListener(this);
             movieImage = (ImageView) itemView.findViewById(R.id.movieImage);
-            // movieTitle = (TextView) itemView.findViewById(R.id.movieTitle);
         }
 
-
-        public String getTitle(String title){
-
-            return title;
-        }
         @Override
         public void onClick(View v) {
-            //  Intent intent = new Intent(context, DeatilBoxOfficeActivity.class);
-
-            // context.startActivity(intent);
-            //  context.startActivity(new Intent(context, DeatilBoxOfficeActivity.class));
-            String title;
             if(clickListener!=null){
 
                 clickListener.itemClicked(v,getPosition());
@@ -137,12 +97,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     }
 
     public interface ClickListener{
-
-        public void itemClicked(View view,int position);
-
-
-
-
-
+        void itemClicked(View view,int position);
     }
 }

@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.example.ekta.popularmovies.Fragments.PopularMovieFragment;
 import com.example.ekta.popularmovies.R;
-import com.example.ekta.popularmovies.Fragments.TopRatedFagment;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       int a= sortOrder();
+        int a= sortOrder();
     }
 
     @Override
@@ -54,15 +54,18 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharePrefs= PreferenceManager.getDefaultSharedPreferences(this);
 
         String option=  sharePrefs.getString(getString(R.string.pref_sort),getString(R.string.pref_default));
-        PopularMovieFragment fragment = PopularMovieFragment.newInstance("", "");
-        TopRatedFagment fragment2= TopRatedFagment.newInstance("","");
+        PopularMovieFragment fragment;
         setContentView(R.layout.activity_main);
 
-        if(option.equals("Popular"))
+        if(option.equals("Popular")) {
+            fragment = PopularMovieFragment.newInstance("0", "");
             getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
+        }
         else
-            getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment2).commit();
-
+        {
+            fragment = PopularMovieFragment.newInstance("1", "");
+            getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

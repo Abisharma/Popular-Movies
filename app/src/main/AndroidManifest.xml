@@ -20,25 +20,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Acitivities.MovieDetailActivity"
+        <activity
+            android:name=".Acitivities.MovieDetailActivity"
             android:label="Detail"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".Acitivities.MainActivity">
+            android:parentActivityName=".Acitivities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Acitivities.MainActivity" />
         </activity>
-
         <activity
             android:name=".Acitivities.SettingsActivity"
             android:label="Settings"
-                   android:parentActivityName=".Acitivities.MainActivity"
-
-                  android:theme="@style/SettingsTheme">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".Acitivities.MainActivity" />
+            android:parentActivityName=".Acitivities.MainActivity"
+            android:theme="@style/SettingsTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Acitivities.MainActivity" />
         </activity>
+        <activity android:name=".Acitivities.Main2Activity"></activity>
     </application>
 
 </manifest>

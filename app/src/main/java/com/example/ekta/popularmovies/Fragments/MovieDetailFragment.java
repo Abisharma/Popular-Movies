@@ -1,10 +1,11 @@
 package com.example.ekta.popularmovies.Fragments;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,56 +16,30 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import static com.example.ekta.popularmovies.Utilities.Constants.*;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
 import com.example.ekta.popularmovies.Model.Movie;
 import com.example.ekta.popularmovies.Adapters.MovieDetailAdapter;
 import com.example.ekta.popularmovies.R;
 import com.example.ekta.popularmovies.Utilities.VolleySingleton;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-
-
-public class MovieDeatilFragment extends Fragment {
-
-
+public class MovieDetailFragment extends Fragment {
     public ImageLoader imageLoader;
     public VolleySingleton volleySingleton;
-
     private Movie movie;
-    private ArrayList<String> trailerInfo = new ArrayList<>();
-    private ArrayList<String> reviewInfo = new ArrayList<>();
-    int id;
-
     public RequestQueue requestQueue;
-    private android.support.v7.widget.ShareActionProvider mShareActionProvider;
-    Button button;
-
-    Boolean favourite;
-    TextView tvReleaseDate;
     int duration = 0;
-    TextView tvOverview;
-    public ArrayList<Movie> listMovies = new ArrayList<>();
-    String movieCoverImage;
-    boolean flag;
-    private static android.support.v4.app.FragmentManager fragmentManager;
     String urlSelf;
-    //TextView title;
-    TextView tvPopularity;
-    TextView tvVote_average;
-    String data;
-    // TextView tvGenre;
-    //ImageView image;
     TextView tvDuration;
     String imagePostUrl = "";
     ImageView itemIcon2;
@@ -74,65 +49,39 @@ public class MovieDeatilFragment extends Fragment {
     String imageString;
     String genres = "";
     String tagline = "";
-
     String vote_average = "";
     int hours = 0;
-
-    String favtitle, favurlSelf, favcoverImage, favaudienceScore, favpopularity, favtagLine, favreleaseDate, favduration, favgenre, favoverview;
-    public ViewPager viewPager;
     String coverImage;
-    Boolean inDatabase = false;
     String releaseDate, overview;
     String titleStr = "";
     int minutes = 0;
-
-    //    TextView movieName;
-    private TextView movieName, movieTagLine, movieReleaseDate, movieDuration, movieGenre, moviePopularity, movieSynopsis, movieRating, movieLanguage;
     String popularity = "";
-    ImageView itemIcon3;
     Movie movieInfo;
-    ImageView itemIcon1;
     String DurationString;
-    String movieVideosInfo;
     RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     Activity activity;
     ImageView movieImage;
-    ImageView back;
     String dataShare;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_deatil, container, false);
-//movieName= (TextView) view.findViewById(R.id.movieName);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_movie_detail);
         mLayoutManager = new LinearLayoutManager(activity);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //  recyclerView=(RecyclerView) view.findViewById(R.id.recyclerView_movie_detail2);
-
         mLayoutManager = new LinearLayoutManager(activity);
-
-        //  recyclerView.setLayoutManager(mLayoutManager);
-        //    fragmentManager = getSupportFragmentManager();//
         movie = new Movie();
         volleySingleton = VolleySingleton.getInstance(getActivity());
         requestQueue = volleySingleton.getmRequestQueue();
         movieImage = (ImageView) view.findViewById(R.id.ivMovieImage);
-
         imageLoader = volleySingleton.getmImageLoader();
-
         movieID = getArguments().getString("stringId");
         urlSelf = getArguments().getString("urlSelf");
         fragmentValue = getArguments().getString("fragment");
-
-
-
         sendjsonRequest(movieID);
-
-
         return view;
     }
 
@@ -142,40 +91,34 @@ public class MovieDeatilFragment extends Fragment {
         this.activity = activity;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     int imageRequest(String imageString) {
 
+        Glide.clear(movieImage);
+        Glide
+                .with(this)
+                .load(imageString)
+                .placeholder(android.R.color.transparent)
+                .crossFade()
+                .into(movieImage);
 
-        if (imageString != null) {
-
-            imageLoader.get(imageString, new ImageLoader.ImageListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-
-                @Override
-                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    movieImage.setImageBitmap(null);
-                    movieImage.setImageBitmap(response.getBitmap());
-                }
-            });
-
-        }
         return 1;
     }
 
     public void sendjsonRequest(final String id) {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET
-                , "http://api.themoviedb.org/3/movie/" + id + "?api_key=74a8c711917fabf892c994dc63136a80"
+                , DATA_REQUEST_PREURL + id + API_KEY
 
                 , new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 movieInfo = parseJsonResponse(response);
-
                 mAdapter = new MovieDetailAdapter(movie,getActivity());
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
@@ -206,7 +149,7 @@ public class MovieDeatilFragment extends Fragment {
 
                 titleStr = response.getString("original_title");
                 imagePostUrl = response.getString("backdrop_path");
-                coverImage = "http://image.tmdb.org/t/p/w780/";
+                coverImage = COVER_INMAGE;
 
 
                 tagline = response.getString("tagline");
@@ -223,10 +166,10 @@ public class MovieDeatilFragment extends Fragment {
                 vote_average = response.getString("vote_average");
                 hours = durationInMin / 60;
                 minutes = durationInMin % 60;
-                DurationString = "Duration: " + hours + " hr " + minutes + " min";
+                DurationString = hours + " hr " + minutes + " min";
 
 
-                imageString = coverImage + imagePostUrl;
+                imageString= COVER_INMAGE + imagePostUrl;
 
                 final JSONArray genreArray = response.getJSONArray("genres");
                 for (int i = 0; i < genreArray.length(); i++) {
@@ -259,15 +202,4 @@ public class MovieDeatilFragment extends Fragment {
 
 
 
-
-
-    private void createShareIntent() {
-
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, dataShare);
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);
-
-    }
 }
