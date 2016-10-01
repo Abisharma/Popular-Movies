@@ -59,6 +59,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     public ArrayList<Movie> listMovies = new ArrayList<>();
     public PopularMovieAdapter popularMovieAdapter;
     Context context;
+    int position;
 
     public PopularMovieFragment() {
         // Required empty public constructor
@@ -84,11 +85,18 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
 
         volleySingleton = VolleySingleton.getInstance(getActivity());
         requestQueue = volleySingleton.getmRequestQueue();
+        if(savedInstanceState!=null)
+        position = savedInstanceState.getInt("scrollPosition");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -148,6 +156,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
         return listMovies;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -157,13 +166,15 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
         recyclerView = (RecyclerView) view.findViewById(R.id.listMoviesHits);
         recyclerView.setHasFixedSize(true);
 
-        Bundle bundle = this.getArguments();
-        String position = bundle.getString("scrollPosition");
+
         if (((GridLayoutManager) recyclerView.getLayoutManager()) != null) {
-            recyclerView.scrollToPosition(Integer.parseInt(position));
+
         }
 
-
+        if(savedInstanceState!=null) {
+Log.v("position is",Integer.toString(position));
+            recyclerView.scrollToPosition(position);
+        }
         pbLoader = (ProgressBar) view.findViewById(R.id.pbLoader);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -182,16 +193,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
             public void onLoadMore(int current_page) {
                 int lastFirstVisiblePosition = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 ((GridLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-
-
-                if (((GridLayoutManager) recyclerView.getLayoutManager()) != null) {
                     scrollPosition = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                    PopularMovieFragment fragment= new PopularMovieFragment();
-                    Bundle bundle = new Bundle();
-                    Log.v("here", Integer.toString(scrollPosition));
-                    bundle.putString("scrollPosition", Integer.toString(scrollPosition));
-                    fragment.setArguments(bundle);
-                }
 
                 if (current_page == 1)
                     sendJsonRequest(1);
@@ -208,7 +210,11 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
         return view;
 
     }
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("scrollPosition",scrollPosition);
+    }
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
