@@ -49,7 +49,7 @@ public class TopRatedFagment extends Fragment    implements PopularMovieAdapter.
     public  String release_date;
     private String mParam1;
     private String mParam2;
-    public String image_preUrl="http://image.tmdb.org/t/p/w342/";
+    public String image_preUrl="http://image.tmdb.org/t/p/w185/";
     private RecyclerView listMoviesHits;
     String image_whole_Url;
     int pages;

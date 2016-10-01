@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.example.ekta.popularmovies.Model.Movie;
 import com.example.ekta.popularmovies.R;
 import com.example.ekta.popularmovies.Utilities.VolleySingleton;
@@ -37,6 +38,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         layoutInflater = LayoutInflater.from(context);
         volleySingleton = VolleySingleton.getInstance(context);
         imageLoader = volleySingleton.getmImageLoader();
+        notifyDataSetChanged();
     }
 
     public void setMovieList(ArrayList<Movie> listMovies) {
@@ -58,7 +60,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         Movie currentMovie = listMovies.get(position);
 
         // holder.movieTitle.setText(currentMovie.getTitle());
-        String url = currentMovie.getUrlSelf();
+       final String url = currentMovie.getUrlSelf();
         if (url != null) {
 
             imageLoader.get(url, new ImageLoader.ImageListener() {
@@ -70,8 +72,15 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                    holder.movieImage.setImageResource(android.R.color.transparent);
-                    holder.movieImage.setImageBitmap(response.getBitmap());
+                   // holder.movieImage.setImageResource(android.R.color.transparent);
+                   // holder.movieImage.setImageBitmap(response.getBitmap());
+                    Glide.clear(holder.movieImage);
+                    Glide
+                            .with(context)
+                            .load(url)
+                            .placeholder(android.R.color.transparent)
+                            .crossFade()
+                            .into(holder.movieImage);
                 }
             });
 
