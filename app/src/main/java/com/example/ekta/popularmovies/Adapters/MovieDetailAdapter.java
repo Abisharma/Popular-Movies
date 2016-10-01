@@ -29,6 +29,7 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public MovieDetailAdapter(Movie movie, Context context) {
         contextt = context;
+        if(contextt!=null)
         layoutInflater = LayoutInflater.from(contextt);
         this.movie = movie;
     }

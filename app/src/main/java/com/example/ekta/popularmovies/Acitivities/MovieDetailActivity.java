@@ -28,4 +28,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                 .replace(R.id.movie_detail_container, movieDetail)
                 .commit();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

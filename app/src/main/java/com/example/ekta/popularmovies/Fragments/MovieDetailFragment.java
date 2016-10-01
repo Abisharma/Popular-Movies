@@ -3,6 +3,7 @@ package com.example.ekta.popularmovies.Fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,7 +64,7 @@ public class MovieDetailFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     Activity activity;
     ImageView movieImage;
-    String dataShare;
+    ImageView imageBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,6 +73,7 @@ public class MovieDetailFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_movie_detail);
         mLayoutManager = new LinearLayoutManager(activity);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        imageBack = (ImageView) view.findViewById(R.id.ivBack);
         mLayoutManager = new LinearLayoutManager(activity);
         movie = new Movie();
         volleySingleton = VolleySingleton.getInstance(getActivity());
@@ -82,6 +84,12 @@ public class MovieDetailFragment extends Fragment {
         urlSelf = getArguments().getString("urlSelf");
         fragmentValue = getArguments().getString("fragment");
         sendjsonRequest(movieID);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
         return view;
     }
 
@@ -96,18 +104,20 @@ public class MovieDetailFragment extends Fragment {
         super.onResume();
     }
 
-    int imageRequest(String imageString) {
-
-        Glide.clear(movieImage);
-        Glide
-                .with(this)
-                .load(imageString)
-                .placeholder(android.R.color.transparent)
-                .crossFade()
-                .into(movieImage);
-
+    int imageRequest(String imageString, Context context) {
+if(context!=null) {
+    Glide.clear(movieImage);
+    Glide
+            .with(this)
+            .load(imageString)
+            .placeholder(android.R.color.transparent)
+            .crossFade()
+            .into(movieImage);
+}
         return 1;
     }
+
+
 
     public void sendjsonRequest(final String id) {
 
@@ -179,7 +189,7 @@ public class MovieDetailFragment extends Fragment {
                     else
                         genres += genre + ".";
                 }
-                int a = imageRequest(imageString);
+                int a = imageRequest(imageString,getActivity());
                 movie.setStringid(movieID);
                 movie.setTitle(titleStr);
                 movie.setCoverImage(imageString);
