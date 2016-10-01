@@ -200,6 +200,8 @@ public class MovieDetailFragment extends Fragment {
         return movie;
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

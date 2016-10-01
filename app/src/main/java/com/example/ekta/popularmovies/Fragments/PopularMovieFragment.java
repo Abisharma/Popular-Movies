@@ -82,6 +82,11 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
