@@ -1,6 +1,7 @@
 package com.example.ekta.popularmovies.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,6 +54,7 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
     private RecyclerView listMoviesHits;
     String image_whole_Url;
     int pages;
+    ProgressBar pbLoader;
     Movie movie;
     public  String overview;
     String image_post_URL;
@@ -59,6 +62,7 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
     public ArrayList<Movie> listMovies = new ArrayList<>();
     public PopularMovieAdapter popularMovieAdapter;
     public Button button;
+    Context context;
     public PopularMovieFragment() {
         // Required empty public constructor
     }
@@ -84,10 +88,14 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
         requestQueue= volleySingleton.getmRequestQueue();
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
 
     public void sendJsonRequest(int pageCount)
-    {
+    {pbLoader.setVisibility(View.VISIBLE);
 
         JsonObjectRequest request= new JsonObjectRequest(Request.Method.GET
                 , "http://api.themoviedb.org/3/movie/popular?api_key=74a8c711917fabf892c994dc63136a80&page="+pageCount
@@ -96,10 +104,11 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
 
             @Override
             public void onResponse(JSONObject response) {
+                pbLoader.setVisibility(View.GONE);
                 listMovies = parseJsonResponse(response);
-                popularMovieAdapter.setMovieList(listMovies);
+             //   popularMovieAdapter.setMovieList(listMovies);
                 //popularMovieAdapter.notifyItemInserted(listMovies.size());
-
+                popularMovieAdapter.notifyDataSetChanged();
 
             }
         }, new Response.ErrorListener() {
@@ -186,6 +195,8 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
         View view=inflater.inflate(R.layout.fragment_popular_movie, container, false);
         GridLayoutManager gridLayoutManager=   new GridLayoutManager(getActivity(),2);
         listMoviesHits= (RecyclerView) view.findViewById(R.id.listMoviesHits);
+        listMoviesHits.setHasFixedSize(true);
+        pbLoader = (ProgressBar) view.findViewById(R.id.pbLoader);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         }
@@ -193,7 +204,7 @@ public class PopularMovieFragment extends Fragment   implements PopularMovieAdap
             gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         }
         listMoviesHits.setLayoutManager(gridLayoutManager);
-        popularMovieAdapter=new PopularMovieAdapter(getActivity());
+        popularMovieAdapter=new PopularMovieAdapter(listMovies,getActivity());
 
         popularMovieAdapter.setClickListener(this);
 

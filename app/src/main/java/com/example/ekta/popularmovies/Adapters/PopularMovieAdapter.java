@@ -31,8 +31,9 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     public ClickListener clickListener;
 
 
-    public PopularMovieAdapter(Context context) {
+    public PopularMovieAdapter(ArrayList<Movie> listMovies,Context context) {
         this.context = context;
+        this.listMovies = listMovies;
         layoutInflater = LayoutInflater.from(context);
         volleySingleton = VolleySingleton.getInstance(context);
         imageLoader = volleySingleton.getmImageLoader();
@@ -41,7 +42,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     public void setMovieList(ArrayList<Movie> listMovies) {
         this.listMovies = listMovies;
       // notifyItemChanged(listMovies.size());
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     @Override
@@ -64,7 +65,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-
                     holder.movieImage.setImageBitmap(bitmap);
                 }
 
