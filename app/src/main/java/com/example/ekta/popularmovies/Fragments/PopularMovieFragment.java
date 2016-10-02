@@ -45,7 +45,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     private static final String ARG_PARAM2 = "param2";
     public VolleySingleton volleySingleton;
     public RequestQueue requestQueue;
-    public String title;
+    public String title; int sortValue;
     public String release_date;
     private String mParam1;
     private String mParam2;
@@ -112,10 +112,15 @@ int newapageCpunt=0;
         this.context = context;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     public void sendJsonRequest(int pageCount) {
         final String sortBy;
         pbLoader.setVisibility(View.VISIBLE);
-        if (mParam1.equals("0"))
+        if (sortValue==0)
             sortBy = POPULAR;
         else sortBy = TOP_RATED;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET
@@ -174,6 +179,7 @@ int newapageCpunt=0;
         recyclerView.setHasFixedSize(true);
 
 
+        sortValue = getArguments().getInt("sort_value");
 
      /*   if (savedInstanceState != null) {
             if (savedInstanceState != null)
