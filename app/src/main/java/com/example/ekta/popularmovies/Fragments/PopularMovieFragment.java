@@ -51,16 +51,23 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     private String mParam2;
     private RecyclerView recyclerView;
     String image_whole_Url;
-    int pages,scrollPosition;
+    int pages, scrollPosition;
     ProgressBar pbLoader;
+    GridLayoutManager gridLayoutManager;
     Movie movie;
+    int p,f,v,t;
+    int newPStartPage;
     String image_post_URL;
+    private int previousTotal = 0; // The total number of items in the dataset after the last load
+    private boolean loading = true; // True if we are still waiting for the last set of data to load.
+    private int visibleThreshold = 4; // The minimum amount of items to have below your current scroll position before loading more.
+    public int firstVisibleItem, visibleItemCount, totalItemCount;
     int pageCount = 1;
     public ArrayList<Movie> listMovies = new ArrayList<>();
     public PopularMovieAdapter popularMovieAdapter;
     Context context;
-    int position;
-
+    int position=1;
+int newapageCpunt=0;
     public PopularMovieFragment() {
         // Required empty public constructor
     }
@@ -85,19 +92,19 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
 
         volleySingleton = VolleySingleton.getInstance(getActivity());
         requestQueue = volleySingleton.getmRequestQueue();
-        if(savedInstanceState!=null)
-        position = savedInstanceState.getInt("scrollPosition");
+        if (savedInstanceState != null) {
+            listMovies = savedInstanceState.getParcelableArrayList("moviesList");
+            pageCount = savedInstanceState.getInt("pageCount");
+            previousTotal = savedInstanceState.getInt("previousTotal");
+            firstVisibleItem = savedInstanceState.getInt("firstVisibleItem");
+            visibleItemCount = savedInstanceState.getInt("visibleItemCount");
+            totalItemCount = savedInstanceState.getInt("totalItemCount");
+            loading = savedInstanceState.getBoolean("loading");
+        }
+
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -162,59 +169,80 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_popular_movie, container, false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView = (RecyclerView) view.findViewById(R.id.listMoviesHits);
         recyclerView.setHasFixedSize(true);
 
 
-        if (((GridLayoutManager) recyclerView.getLayoutManager()) != null) {
 
-        }
-
-        if(savedInstanceState!=null) {
-Log.v("position is",Integer.toString(position));
+     /*   if (savedInstanceState != null) {
+            if (savedInstanceState != null)
+                position = savedInstanceState.getInt("scrollPosition",0);
+            newPStartPage=savedInstanceState.getInt("s",0);
+            Log.v("position is", Integer.toString(newPStartPage));
             recyclerView.scrollToPosition(position);
+
         }
+        */
+
         pbLoader = (ProgressBar) view.findViewById(R.id.pbLoader);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         }
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+
         }
         recyclerView.setLayoutManager(gridLayoutManager);
         popularMovieAdapter = new PopularMovieAdapter(listMovies, getActivity());
         popularMovieAdapter.setClickListener(this);
-        recyclerView.setAdapter(popularMovieAdapter);
+        sendJsonRequest(pageCount);
 
-        sendJsonRequest(1);
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(gridLayoutManager) {
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
-            public void onLoadMore(int current_page) {
-                int lastFirstVisiblePosition = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                ((GridLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-                    scrollPosition = ((GridLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+            public void onScrolled(RecyclerView rv, int dx, int dy) {
+                super.onScrolled(rv, dx, dy);
 
-                if (current_page == 1)
-                    sendJsonRequest(1);
-                if (pageCount < pages) {
-                    pageCount++;
-                    sendJsonRequest(pageCount);
+                String url;
+
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = gridLayoutManager.getItemCount();
+                firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
+
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                        pageCount++;
+                    }
                 }
-
-
+                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)){
+                    sendJsonRequest(pageCount);
+                    loading = true;
+                }
             }
-
         });
 
+        recyclerView.setAdapter(popularMovieAdapter);
+      //  sendJsonRequest(pageCount);
         return view;
 
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("scrollPosition",scrollPosition);
+        outState.putParcelableArrayList("moviesList", listMovies);
+        outState.putInt("pageCount", pageCount);
+        outState.putInt("previousTotal", previousTotal);
+        outState.putInt("firstVisibleItem", firstVisibleItem);
+        outState.putInt("visibleItemCount", visibleItemCount);
+        outState.putInt("totalItemCount", totalItemCount);
+        outState.putBoolean("loading", loading);
     }
+
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);

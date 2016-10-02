@@ -18,8 +18,12 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
 
     private GridLayoutManager mGridLayoutManager;
 
-    public EndlessRecyclerOnScrollListener(GridLayoutManager gridLayoutManager) {
+    public EndlessRecyclerOnScrollListener(GridLayoutManager gridLayoutManager,int previousTotal,int firstVisibleItem,int visibleItemCount,int totalItemCount) {
         this.mGridLayoutManager = gridLayoutManager;
+        this.previousTotal=previousTotal;
+        this.firstVisibleItem=firstVisibleItem;
+        this.visibleItemCount=visibleItemCount;
+        this.totalItemCount=totalItemCount;
     }
 
     @Override

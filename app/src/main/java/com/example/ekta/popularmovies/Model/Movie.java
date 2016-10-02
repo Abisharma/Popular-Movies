@@ -3,8 +3,10 @@ package com.example.ekta.popularmovies.Model;
 /**
  * Created by Ekta on 28-09-2016.
  */
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Movie {
+public class Movie implements Parcelable{
     private int dbId;
     private int id;
     String title;
@@ -22,6 +24,17 @@ public class Movie {
 
     }
 
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
     public Movie(int id, String title, String urlSelf, String coverImage, String audienceScore, String popularity, String tagLine, String releaseDate, String duration, String genre, String overview) {
         this.id = id;
         this.title = title;
@@ -39,7 +52,13 @@ public class Movie {
 
     }
 
+    public Movie(Parcel in) {
 
+        String[] data = new String[2];
+        in.readStringArray(data);
+        this.id = Integer.valueOf(data[0]);
+
+    }
     public String getTitle() {
         return title;
     }
@@ -147,5 +166,16 @@ public class Movie {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+
+
+    }
 }
 

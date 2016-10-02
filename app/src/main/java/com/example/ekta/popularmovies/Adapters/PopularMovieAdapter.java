@@ -30,7 +30,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     private LayoutInflater layoutInflater;
     public Context context;
     public ClickListener clickListener;
-
+int positionn;
 
     public PopularMovieAdapter(ArrayList<Movie> listMovies, Context context) {
         this.context = context;
@@ -40,7 +40,8 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         imageLoader = volleySingleton.getmImageLoader();
         notifyDataSetChanged();
     }
-
+    public void position(int position)
+    {   positionn=position;}
     @Override
     public ViewHolderBoxOffice onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.popular_movies, parent, false);
