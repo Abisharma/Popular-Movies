@@ -1,5 +1,6 @@
 package com.example.ekta.popularmovies.Acitivities;
 
+import android.content.Intent;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -42,4 +43,11 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+
+    }
 }
