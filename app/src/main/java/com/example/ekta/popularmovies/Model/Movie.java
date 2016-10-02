@@ -3,11 +3,12 @@ package com.example.ekta.popularmovies.Model;
 /**
  * Created by Ekta on 28-09-2016.
  */
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Movie implements Parcelable{
-    private int dbId;
+public class Movie implements Parcelable {
+
     private int id;
     String title;
     private String urlSelf;
@@ -35,22 +36,6 @@ public class Movie implements Parcelable{
             return new Movie[size];
         }
     };
-    public Movie(int id, String title, String urlSelf, String coverImage, String audienceScore, String popularity, String tagLine, String releaseDate, String duration, String genre, String overview) {
-        this.id = id;
-        this.title = title;
-        this.urlSelf = urlSelf;
-        this.coverImage = coverImage;
-        this.tagLine = tagLine;
-        this.audienceScore = audienceScore;
-        this.popularity = popularity;
-        this.tagLine = tagLine;
-        this.releaseDateTheater = releaseDate;
-        this.duration = duration;
-        this.genre = genre;
-        this.overview = overview;
-
-
-    }
 
     public Movie(Parcel in) {
 
@@ -59,6 +44,7 @@ public class Movie implements Parcelable{
         this.id = Integer.valueOf(data[0]);
 
     }
+
     public String getTitle() {
         return title;
     }
@@ -149,9 +135,7 @@ public class Movie implements Parcelable{
         return duration;
     }
 
-    public void setPopularity(String popularity) {
-        this.popularity = popularity;
-    }
+    public void setPopularity(String popularity) { this.popularity = popularity;}
 
     public String getPopularity() {
         return popularity;

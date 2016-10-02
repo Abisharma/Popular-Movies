@@ -22,22 +22,19 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     private Movie movie;
-    private ArrayList<String> trailerInfo = new ArrayList<>();
-    private ArrayList<String> reviewsInfo = new ArrayList<>();
     private LayoutInflater layoutInflater;
-    android.content.Context contextt;
+    android.content.Context adapterContext;
 
     public MovieDetailAdapter(Movie movie, Context context) {
-        contextt = context;
-        if(contextt!=null)
-        layoutInflater = LayoutInflater.from(contextt);
+        adapterContext = context;
+        if(adapterContext!=null)
+        layoutInflater = LayoutInflater.from(adapterContext);
         this.movie = movie;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
-
         View view = layoutInflater.inflate(R.layout.movie_detail_holder, parent, false);
         viewHolder = new MovieDetailViewHolder(view);
         return viewHolder;

@@ -20,10 +20,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(this);
-        // Trigger the listener immediately with the preference's
-        // current value.
         onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())

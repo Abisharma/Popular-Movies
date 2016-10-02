@@ -23,7 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.ekta.popularmovies.Acitivities.MovieDetailActivity;
 
 import static com.example.ekta.popularmovies.Utilities.Constants.*;
-
+import static com.example.ekta.popularmovies.Model.ResponseKeys.*;
 import com.example.ekta.popularmovies.Model.Movie;
 import com.example.ekta.popularmovies.Adapters.PopularMovieAdapter;
 import com.example.ekta.popularmovies.R;
@@ -37,25 +37,24 @@ import java.util.ArrayList;
 
 
 public class PopularMovieFragment extends Fragment implements PopularMovieAdapter.ClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public VolleySingleton volleySingleton;
     public RequestQueue requestQueue;
     public String title;
+    String sortBy;
     private String mParam1;
     private String mParam2;
     private RecyclerView recyclerView;
-    String image_whole_Url;
+    String IMAGEURL;
     int pages;
     ProgressBar pbLoader;
     GridLayoutManager gridLayoutManager;
     Movie movie;
-    String image_post_URL;
-    private int previousTotal = 0; // The total number of items in the dataset after the last load
-    private boolean loading = true; // True if we are still waiting for the last set of data to load.
-    private int visibleThreshold = 4; // The minimum amount of items to have below your current scroll position before loading more.
+    String IMAGE_POST_URL;
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 4;
     public int firstVisibleItem, visibleItemCount, totalItemCount;
     int pageCount = 1;
     public ArrayList<Movie> listMovies = new ArrayList<>();
@@ -63,7 +62,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     Context context;
 
     public PopularMovieFragment() {
-        // Required empty public constructor
+
     }
 
     public static PopularMovieFragment newInstance(String param1, String param2) {
@@ -110,12 +109,12 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     }
 
     public void sendJsonRequest(int pageCount) {
-        final String sortBy;
+
         pbLoader.setVisibility(View.VISIBLE);
         if (mParam1.equals("0"))
             sortBy = POPULAR;
         else sortBy = TOP_RATED;
-        Log.v("SORTBY", sortBy);
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET
                 , DATA_REQUEST_PREURL + sortBy + API_KEY + "&page=" + pageCount
                 , new Response.Listener<JSONObject>() {
@@ -140,19 +139,19 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
             return null;
         if (response != null && response.length() > 0) {
             try {
-                pages = response.getInt("total_pages");
-                JSONArray arrayMovieResults = response.getJSONArray("results");
+                pages = response.getInt(TOTAL_PAGES);
+                JSONArray arrayMovieResults = response.getJSONArray(RESULTS);
                 for (int i1 = 0; i1 < arrayMovieResults.length(); i1++) {
 
                     JSONObject currentMovie = arrayMovieResults.getJSONObject(i1);
-                    String sId = currentMovie.getString("id");
+                    String sId = currentMovie.getString(ID);
                     title = currentMovie.getString("title");
-                    image_post_URL = currentMovie.getString("poster_path");
-                    image_whole_Url = IMAGE_PREURL + image_post_URL;
+                     IMAGE_POST_URL = currentMovie.getString(POSTER_PATH);
+                    IMAGEURL = IMAGE_PREURL +  IMAGE_POST_URL;
                     //appending all the movies which we are getting one by one
                     Movie movie = new Movie();
                     movie.setStringid(sId);
-                    movie.setUrlSelf(image_whole_Url);
+                    movie.setUrlSelf(IMAGEURL);
                     listMovies.add(movie);
                 }
             } catch (JSONException e) {

@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import static com.example.ekta.popularmovies.Model.ResponseKeys.*;
 import static com.example.ekta.popularmovies.Utilities.Constants.*;
 
 import com.android.volley.Request;
@@ -38,11 +38,8 @@ public class MovieDetailFragment extends Fragment {
     public RequestQueue requestQueue;
     int duration = 0;
     String urlSelf;
-    TextView tvDuration;
     String imagePostUrl = "";
-    ImageView itemIcon2;
     public String moviedId = "";
-
     String imageString;
     String genres = "";
     String tagline = "";
@@ -139,8 +136,6 @@ public class MovieDetailFragment extends Fragment {
 
 
         requestQueue.add(request);
-
-
     }
 
     public Movie parseJsonResponse(JSONObject response) {
@@ -151,33 +146,24 @@ public class MovieDetailFragment extends Fragment {
             try {
 
 
-                titleStr = response.getString("original_title");
-                imagePostUrl = response.getString("backdrop_path");
+                titleStr = response.getString(TITLE);
+                imagePostUrl = response.getString(BACKDROP_PATH);
                 coverImage = COVER_INMAGE;
-
-
-                tagline = response.getString("tagline");
-
-                duration = Integer.parseInt(response.getString("runtime"));
-                releaseDate = response.getString("release_date");
-
-                overview = response.getString("overview");
-
-                final int durationInMin = duration;
-
-                popularity = response.getString("popularity");
-
-                vote_average = response.getString("vote_average");
-                hours = durationInMin / 60;
-                minutes = durationInMin % 60;
+                tagline = response.getString(TAGLINE);
+                duration = Integer.parseInt(response.getString(DURATION));
+                releaseDate = response.getString(RELEASE_DATE);
+                overview = response.getString(OVERVIEW);
+                popularity = response.getString(POPULARITY);
+                vote_average = response.getString(RATING);
+                hours = duration / 60;
+                minutes = duration % 60;
                 DurationString = hours + " hr " + minutes + " min";
-
 
                 imageString = COVER_INMAGE + imagePostUrl;
 
-                final JSONArray genreArray = response.getJSONArray("genres");
+                final JSONArray genreArray = response.getJSONArray(GENRES);
                 for (int i = 0; i < genreArray.length(); i++) {
-                    String genre = genreArray.getJSONObject(i).getString("name");
+                    String genre = genreArray.getJSONObject(i).getString(GENRE_NAME);
                     if (i != genreArray.length() - 1)
                         genres += genre + ", ";
                     else

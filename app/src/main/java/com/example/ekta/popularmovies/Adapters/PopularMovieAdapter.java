@@ -1,15 +1,11 @@
 package com.example.ekta.popularmovies.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.bumptech.glide.Glide;
 import com.example.ekta.popularmovies.Model.Movie;
@@ -30,7 +26,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     private LayoutInflater layoutInflater;
     public Context context;
     public ClickListener clickListener;
-int positionn;
+
 
     public PopularMovieAdapter(ArrayList<Movie> listMovies, Context context) {
         this.context = context;
@@ -40,8 +36,7 @@ int positionn;
         imageLoader = volleySingleton.getmImageLoader();
         notifyDataSetChanged();
     }
-    public void position(int position)
-    {   positionn=position;}
+
     @Override
     public ViewHolderBoxOffice onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.popular_movies, parent, false);

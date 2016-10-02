@@ -22,6 +22,7 @@
     <string name="genre">Genre :</string>
     <string name="synopsis">Synopsis :</string>
     <string name="duration">Duration :</string>
+    <string name="movies"> Movies</string>
 
 
 </resources>

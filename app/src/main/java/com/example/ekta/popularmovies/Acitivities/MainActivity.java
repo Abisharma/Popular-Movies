@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            if (option.equals("Popular")) {
+            if (option.equals(R.string.pref_default)) {
                 fragment = PopularMovieFragment.newInstance("0", "");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
             } else {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(option + " Movies");
+        getSupportActionBar().setTitle(option + " "+this.getString(R.string.movies));
 
 
     }
