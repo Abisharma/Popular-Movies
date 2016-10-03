@@ -29,15 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            if (option.equals(R.string.pref_default)) {
-                fragment = PopularMovieFragment.newInstance("0", "");
+      //  if (savedInstanceState == null) {
+       //     if (option.equals(R.string.pref_default)) {
+                fragment = PopularMovieFragment.newInstance("", "");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
-            } else {
-                fragment = PopularMovieFragment.newInstance("1", "");
-                getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
-            }
-        }
+       //     } else {
+       //         fragment = PopularMovieFragment.newInstance("1", "");
+       //         getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
+      //      }
+        //}
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(option + " "+this.getString(R.string.movies));
@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         System.exit(0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

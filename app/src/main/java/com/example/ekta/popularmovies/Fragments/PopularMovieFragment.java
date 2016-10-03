@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -97,10 +98,6 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -111,9 +108,14 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     public void sendJsonRequest(int pageCount) {
 
         pbLoader.setVisibility(View.VISIBLE);
-        if (mParam1.equals("0"))
-            sortBy = POPULAR;
-        else sortBy = TOP_RATED;
+   //
+        //    if (mParam1.equals("0"))
+  //          sortBy = POPULAR;
+   //     else sortBy = TOP_RATED;
+
+        sortBy = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getString(getString(R.string.pref_sort), "0")
+                .equals("0") ? TOP_RATED : POPULAR;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET
                 , DATA_REQUEST_PREURL + sortBy + API_KEY + "&page=" + pageCount
@@ -131,6 +133,11 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
             }
         });
         requestQueue.add(request);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     public ArrayList<Movie> parseJsonResponse(JSONObject response) {
