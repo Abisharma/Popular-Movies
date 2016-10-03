@@ -12,6 +12,7 @@
         <item>Popular</item>
         <item>Top Rated</item>
     </string-array>
+
     <string name="pref_default">Popular</string>
     <string name="title_activity_settings1">Settings</string>
     <string name="pref_sort">Sort</string>
