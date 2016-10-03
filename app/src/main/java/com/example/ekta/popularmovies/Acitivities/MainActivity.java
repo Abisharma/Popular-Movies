@@ -24,20 +24,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharePrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         option = sharePrefs.getString(getString(R.string.pref_sort), getString(R.string.pref_default));
-
         setContentView(R.layout.activity_main);
 
-      //  if (savedInstanceState == null) {
-       //     if (option.equals(R.string.pref_default)) {
+        if (savedInstanceState == null) {
                 fragment = PopularMovieFragment.newInstance("", "");
                 getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
-       //     } else {
-       //         fragment = PopularMovieFragment.newInstance("1", "");
-       //         getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
-      //      }
-        //}
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(option + " "+this.getString(R.string.movies));
