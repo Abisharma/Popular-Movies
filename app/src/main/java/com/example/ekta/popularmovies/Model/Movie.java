@@ -25,6 +25,24 @@ public class Movie implements Parcelable {
 
     }
 
+    public Movie(int id,String title,String urlSelf,String coverImage,String audienceScore,String popularity,String tagLine,String releaseDate,String duration,String genre,String overview)
+    {
+        this.id=id;
+        this.title=title;
+        this.urlSelf=urlSelf;
+        this.coverImage=coverImage;
+        this.tagLine=tagLine;
+        this.audienceScore=audienceScore;
+        this.popularity=popularity;
+        this.tagLine=tagLine;
+        this.releaseDateTheater=releaseDate;
+        this.duration=duration;
+        this.genre=genre;
+        this.overview=overview;
+
+
+    }
+
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel in) {

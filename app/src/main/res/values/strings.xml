@@ -24,5 +24,10 @@
     <string name="duration">Duration :</string>
     <string name="movies"> Movies</string>
 
+    <string-array name="tabs">
+        <item>POPULAR</item>
+        <item>Favourite</item>
+    </string-array>
+
 
 </resources>
