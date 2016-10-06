@@ -97,7 +97,7 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
         }
         recyclerView.setLayoutManager(gridLayoutManager);
         adapterFavourite =new FavouriteAdapter(getActivity());
-        //    button= (Button) view.findViewById(R.id.addButton);
+        //button= (Button) view.findViewById(R.id.addButton);
         adapterFavourite.setClickListener(this);
         recyclerView.setAdapter(adapterFavourite);
         movieFromDatabase= new ArrayList<Movie>();
