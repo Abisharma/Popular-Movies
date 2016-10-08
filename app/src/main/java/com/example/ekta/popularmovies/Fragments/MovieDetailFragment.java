@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.data.StreamAssetPathFetcher;
 import com.example.ekta.popularmovies.Model.Movie;
 import com.example.ekta.popularmovies.Adapters.MovieDetailAdapter;
 import com.example.ekta.popularmovies.Model.MovieProvider;
@@ -105,6 +106,7 @@ public class MovieDetailFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(activity);
         mRecyclerView.setLayoutManager(mLayoutManager);
         imageBack = (ImageView) view.findViewById(R.id.ivBack);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         mLayoutManager = new LinearLayoutManager(activity);
         movie = new Movie();
         volleySingleton = VolleySingleton.getInstance(getActivity());
@@ -113,7 +115,6 @@ public class MovieDetailFragment extends Fragment {
         imageLoader = volleySingleton.getmImageLoader();
         movieID = getArguments().getString("stringId");
         urlSelf = getArguments().getString("urlSelf");
-        sendjsonRequest(movieID);
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,15 +139,9 @@ public class MovieDetailFragment extends Fragment {
         }
         else
             fab.setAlpha(1);
-//mThumbUpView= (ThumbUpView) view.findViewById(R.id.tpv);
         ImageView icon = new ImageView(getActivity());
         icon.setImageResource(R.drawable.ic_action_name);
-
-        //   FloatingActionButton actionButton = new FloatingActionButton.Builder(getActivity())
-        //         .setContentView(icon)
-        //       .build();
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(getActivity());
-        // repeat many times:
         itemIcon1 = new ImageView(getActivity());
         if(!inDatabase)
             itemIcon1.setImageResource(R.drawable.ic_action_name);
@@ -156,23 +151,15 @@ public class MovieDetailFragment extends Fragment {
         itemIcon2 = new ImageView(getActivity());
         itemIcon2.setImageResource(R.drawable.ic_action_name);
 
-        itemIcon3 = new ImageView(getActivity());
-        itemIcon3.setImageResource(R.mipmap.ic_launcher);
-
         SubActionButton button1 = itemBuilder.setContentView(itemIcon1).build();
         SubActionButton button2 = itemBuilder.setContentView(itemIcon2).build();
-        //button3 = itemBuilder.setContentView(itemIcon3).build();
-
-        //attach the sub buttons to the main button
         actionMenu = new FloatingActionMenu.Builder(getActivity())
                 .addSubActionView(button1)
                 .addSubActionView(button2)
-                //  .addSubActionView(button3)
                 .attachTo(fab)
                 .build();
 
 
-        //movieImage = (ImageView) view.findViewById(R.id.movieImage);
         movieName = (TextView) view.findViewById(R.id.tvMovieTitle);
         movieTagLine = (TextView) view.findViewById(R.id.tvMovieTagLine);
         movieReleaseDate = (TextView)view.findViewById(R.id.tvMovieReleaseDate);
@@ -181,11 +168,10 @@ public class MovieDetailFragment extends Fragment {
         moviePopularity = (TextView) view.findViewById(R.id.tvMoviePopularity);
         movieRating = (TextView) view.findViewById(R.id.tvMovieRating);
         movieSynopsis = (TextView) view.findViewById(R.id.tvMovieSynopsis);
-        // movieLanguage = (TextView) view.findViewById(R.id.tvMovieLanguage);
+
 
 
         if(fragmentValue.equals("favourite")){
-//            movieName.setText(favtitle);
 
             int b= inDatabase(movieID);
             Toast.makeText(getActivity(),favcoverImage,Toast.LENGTH_SHORT).show();
@@ -199,23 +185,20 @@ public class MovieDetailFragment extends Fragment {
             movie.setGenre(favgenre);
             movie.setOverview(favoverview);
             int a=  imageRequest(favcoverImage,getActivity());
-            mAdapter = new MovieDetailAdapter(movie,mTrailerInfo,mReviewInfo,getActivity());
+            mAdapter = new MovieDetailAdapter(movie,getActivity());
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
 
 
         }
-        else if((fragmentValue.equals("popular"))||(fragmentValue.equals("toprated")))
-
+        else if((fragmentValue.equals("popular")))
             sendjsonRequest(movieID);
-
 
         dbHelper = new DbHelper(getActivity());
         if((dbHelper.isInDatabase(Integer.parseInt(movieID))))
             itemIcon1.setImageResource(R.drawable.ic_action_name);
         else
             itemIcon1.setImageResource(R.drawable.ic_action_name);
-
 
         inDatabase(movieID);
         return view;
@@ -256,11 +239,9 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 movieInfo = parseJsonResponse(response);
-                mAdapter = new MovieDetailAdapter(movie, getActivity());
-                mRecyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+                inDatabase(id);
 
-
+                sendjsonRequestVideos(movieID);
             }
         },
                 new Response.ErrorListener() {
@@ -275,14 +256,12 @@ public class MovieDetailFragment extends Fragment {
     }
 
     public Movie parseJsonResponse(JSONObject response) {
-
         if (response == null || response.length() == 0)
             return null;
         if (response != null && response.length() > 0) {
             try {
 
-
-                titleStr = response.getString(TITLE);
+             /*   titleStr = response.getString(TITLE);
                 imagePostUrl = response.getString(BACKDROP_PATH);
                 coverImage = COVER_INMAGE;
                 tagline = response.getString(TAGLINE);
@@ -305,7 +284,56 @@ public class MovieDetailFragment extends Fragment {
                     else
                         genres += genre + ".";
                 }
-                int a = imageRequest(imageString, getActivity());
+                Log.v("image",imageString);
+              //  int a = imageRequest(imageString, getActivity());
+
+                movie.setStringid(movieID);
+                movie.setTitle(titleStr);
+                movie.setCoverImage(imageString);
+                movie.setUrlSelf(urlSelf);
+                movie.setTagLine(tagline);
+                movie.setAudienceScore(vote_average);
+                movie.setPopularity(popularity);
+                movie.setReleasedate(releaseDate);
+                movie.setDuration(DurationString);
+                movie.setGenre(genres);
+                movie.setOverview(overview);
+Log.v("title",titleStr);
+
+*/ titleStr = response.getString("original_title");
+                imagePostUrl=response.getString("backdrop_path");
+                coverImage="http://image.tmdb.org/t/p/w780/";
+
+
+
+                tagline=response.getString("tagline");
+
+                duration= Integer.parseInt(response.getString("runtime"));
+                releaseDate= response.getString("release_date");
+
+                overview= response.getString("overview");
+
+                final int durationInMin = duration;
+
+                popularity=response.getString("popularity");
+
+                vote_average=response.getString("vote_average");
+                hours = durationInMin / 60;
+                minutes = durationInMin % 60;
+                DurationString=   "Duration: " + hours + " hr " + minutes + " min";
+
+
+                imageString=coverImage+imagePostUrl;
+
+                final JSONArray genreArray = response.getJSONArray("genres");
+                for (int i = 0; i < genreArray.length(); i++) {
+                    String genre = genreArray.getJSONObject(i).getString("name");
+                    if (i != genreArray.length() - 1)
+                        genres += genre + ", ";
+                    else
+                        genres += genre + ".";
+                }
+                int a=imageRequest(imageString,getActivity());
                 movie.setStringid(movieID);
                 movie.setTitle(titleStr);
                 movie.setCoverImage(imageString);
@@ -318,84 +346,24 @@ public class MovieDetailFragment extends Fragment {
                 movie.setGenre(genres);
                 movie.setOverview(overview);
 
-                itemIcon2.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        createShareIntent();
-
-
-                    }
-                });
-
 
             } catch (JSONException e) {
             }
+
+            itemIcon2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    createShareIntent();
+
+
+                }
+            });
 
 
         }
         return movie;
     }
 
-    public int inDatabase(final String movieID)
-    {
-        final String id=movieID;
-        dbHelper = new DbHelper(getActivity());
-        if((dbHelper.isInDatabase(Integer.parseInt(movieID))))
-            itemIcon1.setImageResource(R.drawable.ic_action_name);
-        else
-            itemIcon1.setImageResource(R.drawable.ic_action_name);
 
-
-        itemIcon1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-
-                if(!(dbHelper.isInDatabase(Integer.parseInt(id))))
-                {
-                    inDatabase = true;
-                    itemIcon1.setImageResource(R.drawable.ic_action_name);
-                    //   dbHelper.insertInDatabase(Integer.parseInt(id), titleStr, urlSelf, imageString, vote_average, popularity, tagline, releaseDateString, DurationString, genres, overview);
-
-                    Log.v("hi","hi");
-                    // Boolean isInDb = dbHelper.isInDatabase(Integer.parseInt(movieID));
-                    //if (!isInDb) {
-
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(ID, Integer.parseInt(id));
-                    contentValues.put(TITLE, titleStr);
-                    contentValues.put(URLSELF, urlSelf);
-                    contentValues.put(COVERIMAGE, imageString);
-                    contentValues.put(AUDIENCESCORE, vote_average);
-                    contentValues.put(POPULARITY, popularity);
-                    contentValues.put(TAGLINE, tagline);
-                    contentValues.put(RELEASEDATE, releaseDate);
-                    contentValues.put(DURATION, DurationString);
-                    contentValues.put(GENRE, genres);
-                    contentValues.put(OVERVIEW, overview);
-
-
-                    //db.insert(TABLE_MOVIES, null, contentValues);
-                    activity.getContentResolver().insert(MovieProvider.CONTENT_URI, contentValues);
-
-                    Log.d("database", "inserted");
-                    Toast.makeText(getActivity(),"\"Liked\"",Toast.LENGTH_SHORT).show();
-
-                    //}
-
-
-                }
-                else if((dbHelper.isInDatabase(Integer.parseInt(id)))){
-                    inDatabase = false;
-                    itemIcon1.setImageResource(R.drawable.ic_action_name);
-                    //                  Uri contentUri = MovieProvider.CONTENT_URI;
-//                    activity.getContentResolver().delete(contentUri, "id=?", new String[]{id});
-                    Uri contentUri = MovieProvider.CONTENT_URI;
-                    activity.getContentResolver().delete(contentUri, dbHelper.ID+"=?", new String[]{id});
-                    Toast.makeText(getActivity(),"\"Unliked\"",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        return 1;
-    }
 
     public void sendjsonRequestVideos(String id)
     {
@@ -408,15 +376,8 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 mTrailerInfo = parseJsonResponseVidedos(response);
-                //   recyclerView.setAlpha(0);
-                // mRecyclerView.setAlpha(1);
-                //  if(shareOrNot.equals("notShare")) {
-                //    mTrailerInfo = parseJsonResponseVidedos(response,"notShare");
                 sendJsonRequestReviews(movieID);
-                //   mAdapter = new MovieDetailAdapter2(mTrailerInfo, getActivity());
-                // mRecyclerView.setAdapter(mAdapter);
-                //Toast.makeText(getActivity(),"the toast", Toast.LENGTH_SHORT).show();
-                //mAdapter.notifyDataSetChanged();
+
             }
             //adapterBoxOffice.setMovieList(listMovies);
             //  Toast.makeText(this ,response.toString() + " ",Toast.LENGTH_SHORT).show();
@@ -424,7 +385,7 @@ public class MovieDetailFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //  Toast.makeText(getActivity(),"error" + " ",Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getActivity()," network error" + " ",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -470,9 +431,6 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 mReviewInfo = parseJsonResponseReviews(response);
-                //    recyclerView.setAlpha(0);
-                //     mRecyclerView.setAlpha(1);
-
                 mAdapter = new MovieDetailAdapter(movie,mTrailerInfo,mReviewInfo,getActivity());
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
@@ -481,7 +439,7 @@ public class MovieDetailFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //  Toast.makeText(getActivity(),"error" + " ",Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getActivity()," network error" + " ",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -522,5 +480,52 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+    public int inDatabase(final String movieID)
+    {
+        final String id=movieID;
+        dbHelper = new DbHelper(getActivity());
+        if((dbHelper.isInDatabase(Integer.parseInt(movieID))))
+            itemIcon1.setImageResource(R.drawable.ic_action_name);
+        else
+            itemIcon1.setImageResource(R.drawable.ic_action_name);
+
+
+        itemIcon1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
+                if(!(dbHelper.isInDatabase(Integer.parseInt(id))))
+                {
+                    inDatabase = true;
+                    itemIcon1.setImageResource(R.drawable.ic_action_name);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(ID, Integer.parseInt(id));
+                    contentValues.put(TITLE, titleStr);
+                    contentValues.put(URLSELF, urlSelf);
+                    contentValues.put(COVERIMAGE, imageString);
+                    contentValues.put(AUDIENCESCORE, vote_average);
+                    contentValues.put(POPULARITY, popularity);
+                    contentValues.put(TAGLINE, tagline);
+                    contentValues.put(RELEASEDATE, releaseDate);
+                    contentValues.put(DURATION, DurationString);
+                    contentValues.put(GENRE, genres);
+                    contentValues.put(OVERVIEW, overview);
+                    activity.getContentResolver().insert(MovieProvider.CONTENT_URI, contentValues);
+
+                    Log.d("database", "inserted");
+                    Toast.makeText(getActivity(),"\"Liked\"",Toast.LENGTH_SHORT).show();
+
+                }
+                else if((dbHelper.isInDatabase(Integer.parseInt(id)))){
+                    inDatabase = false;
+                    itemIcon1.setImageResource(R.drawable.ic_action_name);
+                    Uri contentUri = MovieProvider.CONTENT_URI;
+                    activity.getContentResolver().delete(contentUri, dbHelper.ID+"=?", new String[]{id});
+                    Toast.makeText(getActivity(),"\"Unliked\"",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return 1;
     }
 }

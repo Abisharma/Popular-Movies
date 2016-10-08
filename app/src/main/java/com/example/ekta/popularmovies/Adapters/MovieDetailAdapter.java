@@ -43,6 +43,7 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public MovieDetailAdapter(Movie movie, ArrayList<String> trailerInfo, ArrayList<String> reviewsInfo, Context context) {
         adapterContext = context;
         this.movie = movie;
+        if (adapterContext != null)
         layoutInflater = LayoutInflater.from(adapterContext);
         volleySingleton = VolleySingleton.getInstance(adapterContext);
         imageLoader = volleySingleton.getmImageLoader();
@@ -84,16 +85,17 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             case 0:
                 ((MovieDetailViewHolder) holder).movieName.setText(movie.getTitle());
-                if (!movie.getTagLine().equals("")) {
+               if (!movie.getTagLine().equals("")) {
                     ((MovieDetailViewHolder) holder).movieTagLine.setText("\" " + movie.getTagLine() + " \"");
                 } else if (movie.getTagLine().equals("")) {
                     ((MovieDetailViewHolder) holder).movieTagLine.setVisibility(View.GONE);
                 }
+
                 ((MovieDetailViewHolder) holder).movieReleaseDate.setText(movie.getReleasedate());
                 String durationInMin = movie.getDuration();
                 ((MovieDetailViewHolder) holder).movieDuration.setText(durationInMin);
                 ((MovieDetailViewHolder) holder).movieGenre.setText(movie.getGenre());
-                ((MovieDetailViewHolder) holder).moviePopularity.setText(String.format("%.1f", Float.parseFloat(movie.getPopularity())) + "");
+               ((MovieDetailViewHolder) holder).moviePopularity.setText(String.format("%.1f", Float.parseFloat(movie.getPopularity())) + "");
                 ((MovieDetailViewHolder) holder).movieRating.setText(String.format((movie.getAudienceScore()) + ""));
                 ((MovieDetailViewHolder) holder).movieSynopsis.setText(movie.getOverview());
                 break;

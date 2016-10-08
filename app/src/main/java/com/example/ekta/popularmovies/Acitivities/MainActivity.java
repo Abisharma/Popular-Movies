@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.ekta.popularmovies.Fragments.FavouriteFragment;
 import com.example.ekta.popularmovies.Fragments.PopularMovieFragment;
 import com.example.ekta.popularmovies.R;
 import com.example.ekta.popularmovies.Utilities.SlidingTabLayout;
@@ -45,25 +46,17 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         option = sharePrefs.getString(getString(R.string.pref_sort), getString(R.string.pref_default));
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            fragment = PopularMovieFragment.newInstance("", "");
-            getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
-        }
+      //  if (savedInstanceState == null) {
+      //      fragment = PopularMovieFragment.newInstance("", "");
+      //      getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
+      //  }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(option + " " + this.getString(R.string.movies));
-
-
+        //getSupportActionBar().setTitle(option + " " + this.getString(R.string.movies));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
         tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
-
         viewPager = (ViewPager) findViewById(R.id.pager);
-
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-
-
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -125,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
 
     @Override
     public void onTabSelected(MaterialTab tab) {
+        viewPager.setCurrentItem(tab.getPosition());
 
     }
 
@@ -157,8 +151,10 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
                     fragment = PopularMovieFragment.newInstance("", "");
                     break;
                 case 1:
-                    fragment = PopularMovieFragment.newInstance("", "");
+                    fragment = FavouriteFragment.newInstance("", "");
                     break;
+
+
 
             }
 

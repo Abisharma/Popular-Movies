@@ -42,12 +42,15 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
     public FavouriteAdapter adapterFavourite;
     // TODO: Rename and change types of parameters
     private String mParam1;
+    private int previousTotal = 0;
+    private boolean loading = true;
     private String mParam2;
     String id;
     DbHelper dbHelper;
     private int visibleThreshold = 4;
     public int firstVisibleItem, visibleItemCount, totalItemCount;
     ArrayList<Movie> movieFromDatabase;
+    GridLayoutManager gridLayoutManager;
     public FavouriteFragment() {
         // Required empty public constructor
     }
@@ -73,6 +76,14 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        if (savedInstanceState != null) {
+            listMovies = savedInstanceState.getParcelableArrayList("moviesList");
+            previousTotal = savedInstanceState.getInt("previousTotal");
+            firstVisibleItem = savedInstanceState.getInt("firstVisibleItem");
+            visibleItemCount = savedInstanceState.getInt("visibleItemCount");
+            totalItemCount = savedInstanceState.getInt("totalItemCount");
+            loading = savedInstanceState.getBoolean("loading");
+        }
 
     }
 
@@ -86,8 +97,8 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment   // Inflate the layout for this fragment
         dbHelper=new DbHelper(getActivity());
-        View view=inflater.inflate(R.layout.popular_movies, container, false);
-        GridLayoutManager gridLayoutManager=   new GridLayoutManager(getActivity(),2);
+        View view=inflater.inflate(R.layout.fragment_popular_movie, container, false);
+         gridLayoutManager=   new GridLayoutManager(getActivity(),2);
         recyclerView = (RecyclerView) view.findViewById(R.id.listMoviesHits);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -104,18 +115,29 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
 
         getMovies();
         //  sendJsonRequest();
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(gridLayoutManager) {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore(int current_page) {
-                int lastFirstVisiblePosition=((GridLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                ( (GridLayoutManager)recyclerView.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
+            public void onScrolled(RecyclerView rv, int dx, int dy) {
+                super.onScrolled(rv, dx, dy);
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = gridLayoutManager.getItemCount();
+                firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
 
 
-                final Movie movie= new Movie();
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
 
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
 
+                    loading = true;
+                }
             }
         });
+
         return view;
 
 
@@ -163,25 +185,6 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
         i.putExtra("fragment","favourite");
         startActivity(i);
 
-
-
-
-      /*  Movie movie=this.listMovies.get(position);
-        i.putExtra("title", movie.getTitle());
-        i.putExtra("overview", movie.getOverview());
-        i.putExtra("releaseDate", movie.getReleaseDateTheater());
-        i.putExtra("Image", movie.getUrlThumbnail());
-        i.putExtra("favourite",true);
-        startActivity(i);
-        */
-
-
-        {
-
-            // movieFromDatabase=dbHelper.getMovieFeomDatabase()
-
-
-        }
     }
     private void getMovies(){
 
@@ -189,11 +192,17 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
         list= dbHelper.getAllComments();
         adapterFavourite.setMovieList(list);
         setMovieListFavourite(list);
+    }
 
-        // movieList.clear();
-        // for(Movie movie : list){
-        //      movieList.add(movie);
-        //}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("moviesList", listMovies);
+        outState.putInt("previousTotal", previousTotal);
+        outState.putInt("firstVisibleItem", firstVisibleItem);
+        outState.putInt("visibleItemCount", visibleItemCount);
+        outState.putInt("totalItemCount", totalItemCount);
+        outState.putBoolean("loading", loading);
     }
 
 

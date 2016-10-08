@@ -41,6 +41,10 @@
                 android:value=".Acitivities.MainActivity" />
         </activity>
         <activity android:name=".Acitivities.DetailBoxOfficeActivity"></activity>
+        <provider
+            android:name="com.example.ekta.popularmovies.Model.MovieProvider"
+            android:authorities="com.example.ekta.popularmovies">
+        </provider>
     </application>
 
 </manifest>

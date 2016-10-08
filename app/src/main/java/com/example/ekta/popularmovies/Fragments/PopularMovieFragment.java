@@ -172,6 +172,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.v("popular fragment","called");
         View view = inflater.inflate(R.layout.fragment_popular_movie, container, false);
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView = (RecyclerView) view.findViewById(R.id.listMoviesHits);
@@ -243,6 +244,7 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
         movie = this.listMovies.get(position);
         i.putExtra("stringId", movie.getStringid());
         i.putExtra("urlSelf", movie.getUrlSelf());
+        i.putExtra("fragment","popular");
         startActivity(i);
     }
 

@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public class MovieProvider extends ContentProvider {
 
-    static final String PROVIDER_NAME = "com.example.android.material_design/material_design";
+    static final String PROVIDER_NAME = "com.example.ekta.popularmovies/popularmovies";
     static final String URL = "content://" + PROVIDER_NAME ;
     public static final Uri CONTENT_URI = Uri.parse(URL);
     DbHelper dbHelper;
