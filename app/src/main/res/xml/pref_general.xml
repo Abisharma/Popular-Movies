@@ -18,7 +18,7 @@
     android:defaultValue="false"
     android:title="Favourite"
     android:key="Favourite"
-    android:summary="click to see favourites"
+    android:summary="Enable it to see favourites"
 
     />
 </PreferenceScreen>

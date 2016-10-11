@@ -1,6 +1,8 @@
 package com.example.ekta.popularmovies.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import static com.example.ekta.popularmovies.Utilities.Constants.*;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.ekta.popularmovies.Model.Movie;
@@ -105,7 +107,7 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 final String[] data = trailerInfo.get(position - 1).split(",");
 
                 dataZero = data[0];
-                String coverImage = "http://img.youtube.com/vi/" + data[0] + "/mqdefault.jpg";
+                String coverImage = YOUTUBE_IMAGE_PREURL + data[0] + YOUTUBE_IMAGE_POSTURL;
                 if (coverImage != null) {
                     imageLoader.get(coverImage, new ImageLoader.ImageListener() {
                         @Override
@@ -121,7 +123,20 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
 
                 ((TrailersViewHolder) holder).trailerTitle.setText(data[1]);
+                ((TrailersViewHolder) holder).trailerTitle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapterContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_PREURL + data[0])));
+                    }
+                });
+                ((TrailersViewHolder) holder).trailerImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adapterContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_PREURL + data[0])));
+                    }
+                });
                 break;
+
             case 2:
                 String author = (reviewsInfo.get(position - 1 - trailerInfo.size())
                         .substring(0, reviewsInfo.get(position - 1 - trailerInfo.size()).indexOf(",")));

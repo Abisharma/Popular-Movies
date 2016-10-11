@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
 
 
 import com.example.ekta.popularmovies.Fragments.FavouriteFragment;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity{
         option = sharePrefs.getString(getString(R.string.pref_sort), getString(R.string.pref_default));
         setContentView(R.layout.activity_main);
        Boolean fav= sharePrefs.getBoolean(getString(R.string.Favourite),false);
-        Toast.makeText(this,fav.toString(),Toast.LENGTH_SHORT).show();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -13,4 +13,7 @@ public class Constants {
     public static final String VIDEOS= "/videos";
     public static final String REVIEWS= "/reviews";
     public static final String YOUTUBE_PREURL="http://www.youtube.com/watch?v=";
+    public static final String YOUTUBE_IMAGE_PREURL="http://img.youtube.com/vi/";
+    public static final String YOUTUBE_IMAGE_POSTURL="/mqdefault.jpg";
+
 }

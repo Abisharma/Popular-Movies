@@ -8,7 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.widget.Toast;
+
 
 import com.example.ekta.popularmovies.R;
 
@@ -51,13 +51,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
                 preference.setSummary(listPreference.getEntries()[prefIndex]);
             }
         }
-        else  ;
-        {  if(stringValue=="false")
-            preference.setSummary("Enable to see Favourites");
-            else
-            preference.setSummary("Disable to see Popular/Top Rated Movies");
 
-        }
         return true;
     }
 

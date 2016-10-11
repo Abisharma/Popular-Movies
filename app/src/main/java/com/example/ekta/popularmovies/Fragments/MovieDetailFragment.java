@@ -133,16 +133,16 @@ public class MovieDetailFragment extends Fragment {
             } else
                 fab.setAlpha(1);
             ImageView icon = new ImageView(getActivity());
-            icon.setImageResource(R.drawable.ic_action_name);
+            icon.setImageResource(R.mipmap.ic_more);
             SubActionButton.Builder itemBuilder = new SubActionButton.Builder(getActivity());
             iv_like = new ImageView(getActivity());
             if (!inDatabase)
-                iv_like.setImageResource(R.drawable.ic_action_name);
+                iv_like.setImageResource(R.drawable.like_hollow_heart);
             else
-                iv_like.setImageResource(R.drawable.ic_action_name);
+                iv_like.setImageResource(R.drawable.like);
 
             iv_share = new ImageView(getActivity());
-            iv_share.setImageResource(R.drawable.ic_action_name);
+            iv_share.setImageResource(R.drawable.share);
 
             SubActionButton button1 = itemBuilder.setContentView(iv_like).build();
             SubActionButton button2 = itemBuilder.setContentView(iv_share).build();
@@ -156,7 +156,7 @@ public class MovieDetailFragment extends Fragment {
             if (fragmentValue.equals("favourite")) {
 
                 int b = inDatabase(movieID);
-                Toast.makeText(getActivity(), favcoverImage, Toast.LENGTH_SHORT).show();
+
                 movie.setStringid(movieID);
                 movie.setTitle(favtitle);
                 movie.setTagLine(favtagLine);
@@ -177,9 +177,9 @@ public class MovieDetailFragment extends Fragment {
 
             dbHelper = new DbHelper(getActivity());
             if ((dbHelper.isInDatabase(Integer.parseInt(movieID))))
-                iv_like.setImageResource(R.drawable.ic_action_name);
+                iv_like.setImageResource(R.drawable.like);
             else
-                iv_like.setImageResource(R.drawable.ic_action_name);
+                iv_like.setImageResource(R.drawable.like_hollow_heart);
 
             inDatabase(movieID);
         }
@@ -407,9 +407,9 @@ public class MovieDetailFragment extends Fragment {
         final String id=movieID;
         dbHelper = new DbHelper(getActivity());
         if((dbHelper.isInDatabase(Integer.parseInt(movieID))))
-            iv_like.setImageResource(R.drawable.ic_action_name);
+            iv_like.setImageResource(R.drawable.like);
         else
-            iv_like.setImageResource(R.drawable.ic_action_name);
+            iv_like.setImageResource(R.drawable.like_hollow_heart);
 
 
         iv_like.setOnClickListener(new View.OnClickListener() {
@@ -419,7 +419,7 @@ public class MovieDetailFragment extends Fragment {
                 if(!(dbHelper.isInDatabase(Integer.parseInt(id))))
                 {
                     inDatabase = true;
-                    iv_like.setImageResource(R.drawable.ic_action_name);
+                    iv_like.setImageResource(R.drawable.like);
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(CV_ID, Integer.parseInt(id));
                     contentValues.put(CV_TITLE, titleStr);
@@ -438,7 +438,7 @@ public class MovieDetailFragment extends Fragment {
                 }
                 else if((dbHelper.isInDatabase(Integer.parseInt(id)))){
                     inDatabase = false;
-                    iv_like.setImageResource(R.drawable.ic_action_name);
+                    iv_like.setImageResource(R.drawable.like_hollow_heart);
                     Uri contentUri = MovieProvider.CONTENT_URI;
                     activity.getContentResolver().delete(contentUri, dbHelper.ID+"=?", new String[]{id});
                     Toast.makeText(getActivity(),"\"Unliked\"",Toast.LENGTH_SHORT).show();

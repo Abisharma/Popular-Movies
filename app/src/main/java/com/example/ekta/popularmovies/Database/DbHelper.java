@@ -83,22 +83,7 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-   /* public ArrayList<Movie> getAllCotacts()
-    {
-        ArrayList<Movie> array_list = new ArrayList<Movie>();
 
-        //hp = new HashMap();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from moviesDb", null );
-        res.moveToFirst();
-
-        while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex()));
-            res.moveToNext();
-        }
-        return array_list;
-    }
-    */
 
     public boolean insertInDatabase(int id,String title,String urlSelf,String coverImage,String audienceScore,String popularity,String tagLine,String releaseDate,String duration,String genre,String overview)
     {

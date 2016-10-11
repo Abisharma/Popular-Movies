@@ -17,7 +17,6 @@ import com.example.ekta.popularmovies.Adapters.FavouriteAdapter;
 import com.example.ekta.popularmovies.Model.Movie;
 import com.example.ekta.popularmovies.R;
 import com.example.ekta.popularmovies.Database.DbHelper;
-import com.example.ekta.popularmovies.Utilities.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 
@@ -28,23 +27,19 @@ import java.util.ArrayList;
  */
 
 public class FavouriteFragment extends Fragment implements FavouriteAdapter.ClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-
-    private RecyclerView listMoviesHits;
-    String image_whole_Url;
-    public String overview;
-    String image_post_URL;
+    private RecyclerView recyclerView;
+    private int previousTotal = 0;
+    private boolean loading = true;
+    private int visibleThreshold = 4;
+    public int firstVisibleItem, visibleItemCount, totalItemCount;
     public ArrayList<Movie> listMovies = new ArrayList<>();
     public FavouriteAdapter adapterFavourite;
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     String id;
+    GridLayoutManager gridLayoutManager;
     DbHelper dbHelper;
     ArrayList<Movie> movieFromDatabase;
 
@@ -70,6 +65,15 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        if (savedInstanceState != null) {
+            listMovies = savedInstanceState.getParcelableArrayList("moviesList");
+            previousTotal = savedInstanceState.getInt("previousTotal");
+            firstVisibleItem = savedInstanceState.getInt("firstVisibleItem");
+            visibleItemCount = savedInstanceState.getInt("visibleItemCount");
+            totalItemCount = savedInstanceState.getInt("totalItemCount");
+            loading = savedInstanceState.getBoolean("loading");
+        }
     }
 
     @Override
@@ -77,33 +81,43 @@ public class FavouriteFragment extends Fragment implements FavouriteAdapter.Clic
                              Bundle savedInstanceState) {
         dbHelper = new DbHelper(getActivity());
         View view = inflater.inflate(R.layout.fragment_popular_movie, container, false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        listMoviesHits = (RecyclerView) view.findViewById(R.id.listMoviesHits);
+         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        recyclerView = (RecyclerView) view.findViewById(R.id.listMoviesHits);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         }
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         }
-        listMoviesHits.setLayoutManager(gridLayoutManager);
+        recyclerView.setLayoutManager(gridLayoutManager);
         adapterFavourite = new FavouriteAdapter(getActivity());
-        //    button= (Button) view.findViewById(R.id.addButton);
+
         adapterFavourite.setClickListener(this);
-        listMoviesHits.setAdapter(adapterFavourite);
+        recyclerView.setAdapter(adapterFavourite);
         movieFromDatabase = new ArrayList<Movie>();
 
         getMovies();
-        //  sendJsonRequest();
-        listMoviesHits.addOnScrollListener(new EndlessRecyclerOnScrollListener(gridLayoutManager) {
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore(int current_page) {
-                int lastFirstVisiblePosition = ((GridLayoutManager) listMoviesHits.getLayoutManager()).findFirstVisibleItemPosition();
-                ((GridLayoutManager) listMoviesHits.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
+            public void onScrolled(RecyclerView rv, int dx, int dy) {
+                super.onScrolled(rv, dx, dy);
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = gridLayoutManager.getItemCount();
+                firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
 
 
-                final Movie movie = new Movie();
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
 
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
 
+                    loading = true;
+                }
             }
         });
         return view;
@@ -151,6 +165,7 @@ if(MainActivity.twoPane==false) {
     Bundle bundle= new Bundle();
     Fragment movieDetail = new MovieDetailFragment();
     bundle.putString("stringId", movie.getStringid());
+    bundle.putString("title", title);
     bundle.putString("urlSelf", movie.getUrlSelf());
     bundle.putString("coverImage", coverImage);
     bundle.putString("audienceScore", audienceScore);
@@ -166,10 +181,6 @@ if(MainActivity.twoPane==false) {
             .beginTransaction()
             .replace(R.id.movie_detail_container2, movieDetail)
             .commit();}
-onStart();
-
-
-        onStart();
     }
 
     private void getMovies() {
