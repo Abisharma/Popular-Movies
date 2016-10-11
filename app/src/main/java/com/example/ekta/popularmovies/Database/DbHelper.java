@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Utilities;
+package com.example.ekta.popularmovies.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class DbHelper extends SQLiteOpenHelper {
     Cursor cursor;
 
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 17;
     public static final String TABLE_MOVIES = "moviesTable";
     public static final String COLUMN_ID = "_id";
 
@@ -127,10 +127,10 @@ public class DbHelper extends SQLiteOpenHelper {
     }
     public boolean isInDatabase(int id)
     {
-        SQLiteDatabase     db= this.getReadableDatabase();
+         db= this.getReadableDatabase();
         Cursor c=  db.rawQuery( "select "+ ID+" from " + TABLE_MOVIES +" where " +ID +" = " + id , null );
         c.moveToFirst();
-        if(c.getCount() <= 0){
+        if(c.getCount()<= 0){
             c.close();
             return false;
         }
@@ -151,7 +151,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ArrayList<Movie> movies = new ArrayList<Movie>();
 
 
-        SQLiteDatabase     db= this.getReadableDatabase();
+        SQLiteDatabase db= this.getReadableDatabase();
         Cursor c=  db.rawQuery( "select * from " + TABLE_MOVIES, null );
         c.moveToFirst();
 
@@ -161,11 +161,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 Movie movie = new Movie(
                         c.getInt(c.getColumnIndex(ID)),
                         c.getString(c.getColumnIndex(TITLE)),
-
                         c.getString(c.getColumnIndex(URLSELF)),
-
                         c.getString(c.getColumnIndex(COVERIMAGE)),
-
                         c.getString(c.getColumnIndex(AUDIENCESCORE)),
                         c.getString(c.getColumnIndex(POPULARITY)),
                         c.getString(c.getColumnIndex(TAGLINE)),

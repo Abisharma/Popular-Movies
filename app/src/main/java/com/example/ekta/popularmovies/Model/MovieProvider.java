@@ -11,9 +11,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.example.ekta.popularmovies.Utilities.DbHelper;
-
-import java.util.HashMap;
+import com.example.ekta.popularmovies.Database.DbHelper;
 
 /**
  * Created by Ekta on 06-10-2016.
@@ -25,11 +23,6 @@ public class MovieProvider extends ContentProvider {
     public static final Uri CONTENT_URI = Uri.parse(URL);
     DbHelper dbHelper;
     static final String id = "id";
-    static final String name = "name";
-    static final int uriCode = 1;
-    //static final UriMatcher uriMatcher;
-    private static HashMap<String, String> values;
-
 
     SQLiteDatabase db;
     @Override

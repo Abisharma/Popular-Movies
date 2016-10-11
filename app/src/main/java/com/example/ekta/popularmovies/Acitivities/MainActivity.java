@@ -16,28 +16,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+
 import com.example.ekta.popularmovies.Fragments.FavouriteFragment;
+import com.example.ekta.popularmovies.Fragments.MovieDetailFragment;
 import com.example.ekta.popularmovies.Fragments.PopularMovieFragment;
 import com.example.ekta.popularmovies.R;
-import com.example.ekta.popularmovies.Utilities.SlidingTabLayout;
 
-import it.neokree.materialtabs.MaterialTab;
-import it.neokree.materialtabs.MaterialTabHost;
-import it.neokree.materialtabs.MaterialTabListener;
-
-public class MainActivity extends AppCompatActivity implements MaterialTabListener {
+public class MainActivity extends AppCompatActivity{
     String option = "";
-    PopularMovieFragment fragment;
+
     SharedPreferences sharePrefs;
-    private SlidingTabLayout mTabs;
 
-    public static final int MOVIES_SEARCH_RESULTS = 0;
+    public static boolean twoPane=false;
 
-    public static final int MOVIES_HITS = 1;
-
-    public static final int MOVIES_UPCOMING = 2;
-    public MaterialTabHost tabHost;
-    public ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,35 +36,48 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         sharePrefs = PreferenceManager.getDefaultSharedPreferences(this);
         option = sharePrefs.getString(getString(R.string.pref_sort), getString(R.string.pref_default));
         setContentView(R.layout.activity_main);
+       Boolean fav= sharePrefs.getBoolean(getString(R.string.Favourite),false);
+        Toast.makeText(this,fav.toString(),Toast.LENGTH_SHORT).show();
 
-      //  if (savedInstanceState == null) {
-      //      fragment = PopularMovieFragment.newInstance("", "");
-      //      getSupportFragmentManager().beginTransaction().replace(R.id.relativelayout, fragment).commit();
-      //  }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setTitle(option + " " + this.getString(R.string.movies));
+
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        tabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
+if(fav==false) {
+    getSupportActionBar().setTitle(option + " " + this.getString(R.string.movies));
+    PopularMovieFragment popularMovieFragment = new PopularMovieFragment();
+    Intent i = getIntent();
+    getSupportFragmentManager().beginTransaction()
+            .replace(R.id.mainactivity_container, popularMovieFragment)
+            .commit();
+}
+        else
 
-                tabHost.setSelectedNavigationItem(position);
-            }
-        });
+{
+    getSupportActionBar().setTitle(this.getString(R.string.Favourite) + " " +this.getString(R.string.movies) );
+   FavouriteFragment favouriteFragment = new FavouriteFragment();
+    Intent i = getIntent();
+    getSupportFragmentManager().beginTransaction()
+            .replace(R.id.mainactivity_container, favouriteFragment)
+            .commit();
+}
+      if(findViewById(R.id.movie_detail_container2)!=null) {
+            twoPane=true;
+            String movieID="271110",urlSelf,fragment="popular";
 
-        for (int i = 0; i < adapter.getCount(); i++) {
-
-            tabHost.addTab(
-                    tabHost.newTab()
-                            .setText(adapter.getPageTitle(i))
-                            .setTabListener(this));
+                Bundle bundle1 =new Bundle();
+                bundle1.putString("stringId", movieID);
+                bundle1.putString("fragment", fragment);
+                MovieDetailFragment movieDetail;
+                movieDetail = new MovieDetailFragment();
+                movieDetail.setArguments(bundle1);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_detail_container2, movieDetail)
+                        .commit();
 
         }
+
     }
 
 
@@ -116,62 +120,7 @@ public class MainActivity extends AppCompatActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onTabSelected(MaterialTab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
 
-    }
-
-    @Override
-    public void onTabReselected(MaterialTab tab) {
-
-    }
-
-    @Override
-    public void onTabUnselected(MaterialTab tab) {
-
-    }
-
-
-    class MyPagerAdapter extends FragmentStatePagerAdapter {
-
-        String[] tabText =   getResources().getStringArray(R.array.tabs);
-
-        public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public android.support.v4.app.Fragment getItem(int position) {
-            android.support.v4.app.Fragment fragment = null;
-
-            switch (position) {
-
-                case 0:
-                    fragment = PopularMovieFragment.newInstance("", "");
-                    break;
-                case 1:
-                    fragment = FavouriteFragment.newInstance("", "");
-                    break;
-
-
-
-            }
-
-            return fragment;
-
-        }
-
-        public CharSequence getPageTitle(int position) {
-            return tabText[position];
-
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-    }
 }
 
 

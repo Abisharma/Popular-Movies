@@ -128,10 +128,8 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((ReviewsViewHolder) holder).reviwerDesc
                         .setText(reviewsInfo.get(position - 1 - trailerInfo.size())
                                 .substring(reviewsInfo.get(position - 1 - trailerInfo.size()).indexOf(",") + 1));
-
-                // final String[] ReviewData =  reviewsInfo.get(position - 1- trailerInfo.size()).split(",");
                 ((ReviewsViewHolder) holder).reviwerName.setText(author);
-                // ((ReviewsViewHolder) holder).reviwerDesc.setText(ReviewData[1]);
+
 
         }
     }
@@ -159,7 +157,6 @@ public class MovieDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public MovieDetailViewHolder(View itemView) {
             super(itemView);
-            // context = itemView.getContext();
             movieImage = (ImageView) itemView.findViewById(R.id.movieImage);
             movieName = (TextView) itemView.findViewById(R.id.tvMovieTitle);
             movieTagLine = (TextView) itemView.findViewById(R.id.tvMovieTagLine);

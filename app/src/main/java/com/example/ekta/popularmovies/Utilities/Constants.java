@@ -10,4 +10,7 @@ public class Constants {
     public static final String API_KEY = "?api_key=74a8c711917fabf892c994dc63136a80";
     public static final String TOP_RATED = "top_rated";
     public static final String COVER_INMAGE = "http://image.tmdb.org/t/p/w780/";
+    public static final String VIDEOS= "/videos";
+    public static final String REVIEWS= "/reviews";
+    public static final String YOUTUBE_PREURL="http://www.youtube.com/watch?v=";
 }

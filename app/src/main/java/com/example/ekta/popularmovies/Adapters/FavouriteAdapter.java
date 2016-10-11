@@ -2,6 +2,7 @@ package com.example.ekta.popularmovies.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,8 +59,7 @@ public class FavouriteAdapter  extends RecyclerView.Adapter<FavouriteAdapter.Vie
 
         Movie currentMovie = listMovies.get(position);
 
-        // holder.movieTitle.setText(currentMovie.getTitle());
-        String url = currentMovie.getUrlSelf();
+       final String url = currentMovie.getUrlSelf();
         if (url != null) {
 
             imageLoader.get(url, new ImageLoader.ImageListener() {
@@ -71,6 +71,7 @@ public class FavouriteAdapter  extends RecyclerView.Adapter<FavouriteAdapter.Vie
                 @Override
                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                     holder.movieImage.setImageBitmap(response.getBitmap());
+                    Log.v("url",url);
                 }
             });
 

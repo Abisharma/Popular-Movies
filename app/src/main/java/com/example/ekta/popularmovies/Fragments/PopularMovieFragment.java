@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.ekta.popularmovies.Acitivities.MainActivity;
 import com.example.ekta.popularmovies.Acitivities.MovieDetailActivity;
 
 import static com.example.ekta.popularmovies.Utilities.Constants.*;
@@ -29,6 +30,7 @@ import static com.example.ekta.popularmovies.Model.ResponseKeys.*;
 import com.example.ekta.popularmovies.Model.Movie;
 import com.example.ekta.popularmovies.Adapters.PopularMovieAdapter;
 import com.example.ekta.popularmovies.R;
+import com.example.ekta.popularmovies.Acitivities.MainActivity;
 import com.example.ekta.popularmovies.Utilities.VolleySingleton;
 
 import org.json.JSONArray;
@@ -174,6 +176,8 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
         // Inflate the layout for this fragment
         Log.v("popular fragment","called");
         View view = inflater.inflate(R.layout.fragment_popular_movie, container, false);
+        if(MainActivity.twoPane==true)
+        {  View view2 = inflater.inflate(R.layout.fragment_movie_deatil, container, false);}
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView = (RecyclerView) view.findViewById(R.id.listMoviesHits);
         recyclerView.setHasFixedSize(true);
@@ -239,13 +243,27 @@ public class PopularMovieFragment extends Fragment implements PopularMovieAdapte
 
     @Override
     public void itemClicked(View view, int position) {
-
-        Intent i = new Intent(getActivity(), MovieDetailActivity.class);
-        movie = this.listMovies.get(position);
-        i.putExtra("stringId", movie.getStringid());
-        i.putExtra("urlSelf", movie.getUrlSelf());
-        i.putExtra("fragment","popular");
-        startActivity(i);
+       if(MainActivity.twoPane==false) {
+           Intent i = new Intent(getActivity(), MovieDetailActivity.class);
+           movie = this.listMovies.get(position);
+           i.putExtra("stringId", movie.getStringid());
+           i.putExtra("urlSelf", movie.getUrlSelf());
+           i.putExtra("fragment", "popular");
+           startActivity(i);
+       }
+        else {
+           movie = this.listMovies.get(position);
+        Bundle bundle= new Bundle();
+           Fragment movieDetail = new MovieDetailFragment();
+           bundle.putString("stringId", movie.getStringid());
+           bundle.putString("fragment", "popular");
+           bundle.putString("urlSelf", movie.getUrlSelf());
+           movieDetail.setArguments(bundle);
+           getActivity().getSupportFragmentManager()
+                   .beginTransaction()
+                   .replace(R.id.movie_detail_container2, movieDetail)
+                   .commit();
+       }
     }
 
 }

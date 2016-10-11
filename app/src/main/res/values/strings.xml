@@ -29,6 +29,6 @@
         <item>Favourite</item>
 
     </string-array>
-
+    <string name="Favourite"> Favourite</string>
 
 </resources>

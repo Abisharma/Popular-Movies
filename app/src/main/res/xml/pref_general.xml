@@ -13,5 +13,12 @@
         android:entryValues="@array/pref_values"
         android:entries="@array/pref_options"
         />
+<CheckBoxPreference
+    android:id="@+id/fav"
+    android:defaultValue="false"
+    android:title="Favourite"
+    android:key="Favourite"
+    android:summary="click to see favourites"
 
+    />
 </PreferenceScreen>

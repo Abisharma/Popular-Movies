@@ -57,9 +57,19 @@ public class Movie implements Parcelable {
 
     public Movie(Parcel in) {
 
-        String[] data = new String[10];
+        String[] data = new String[11];
         in.readStringArray(data);
         this.id = Integer.valueOf(data[0]);
+        this.title=data[1];
+        this.urlSelf=data[2];
+        this.coverImage=data[3];
+        this.audienceScore=data[4];
+        this.popularity=data[5];
+        this.tagLine=data[6];
+        this.releaseDateTheater=data[7];
+        this.duration=data[8];
+        this.genre=data[9];
+        this.overview=data[10];
 
 
     }
@@ -177,6 +187,17 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(urlSelf);
+        dest.writeString(coverImage);
+        dest.writeString(audienceScore);
+        dest.writeString(popularity);
+        dest.writeString(tagLine);
+        dest.writeString(releaseDateTheater);
+        dest.writeString(duration);
+        dest.writeString(genre);
+        dest.writeString(overview);
+
 
 
     }
