@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Utilities;
+package com.example.ekta.popularmovies.utilities;
 
 /**
  * Created by Ekta on 01-10-2016.

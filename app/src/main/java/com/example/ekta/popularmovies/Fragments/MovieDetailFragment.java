@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Fragments;
+package com.example.ekta.popularmovies.fragments;
 
 
 import android.app.Activity;
@@ -15,11 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.example.ekta.popularmovies.Utilities.Constants.*;
-import static com.example.ekta.popularmovies.Model.ResponseKeys.*;
+import static com.example.ekta.popularmovies.utilities.Constants.*;
+import static com.example.ekta.popularmovies.model.ResponseKeys.*;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,12 +26,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
-import com.example.ekta.popularmovies.Model.Movie;
-import com.example.ekta.popularmovies.Adapters.MovieDetailAdapter;
-import com.example.ekta.popularmovies.Model.MovieProvider;
+import com.example.ekta.popularmovies.model.Movie;
+import com.example.ekta.popularmovies.adapters.MovieDetailAdapter;
+import com.example.ekta.popularmovies.model.MovieProvider;
 import com.example.ekta.popularmovies.R;
-import com.example.ekta.popularmovies.Database.DbHelper;
-import com.example.ekta.popularmovies.Utilities.VolleySingleton;
+import com.example.ekta.popularmovies.database.DbHelper;
+import com.example.ekta.popularmovies.utilities.VolleySingleton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
@@ -74,6 +73,7 @@ public class MovieDetailFragment extends Fragment {
     int minutes = 0;
     String popularity = "";
     ImageView imageBack;
+    private Context mContext;
     String favtitle, favurlSelf, favcoverImage, favaudienceScore, favpopularity,favtagLine, favreleaseDate,favduration, favgenre, favoverview;
     Movie movieInfo;
     ImageView iv_like;
@@ -175,7 +175,7 @@ public class MovieDetailFragment extends Fragment {
             } else if ((fragmentValue.equals("popular")))
                 sendjsonRequest(movieID);
 
-            dbHelper = new DbHelper(getActivity());
+           dbHelper = new DbHelper(activity);
             if ((dbHelper.isInDatabase(Integer.parseInt(movieID))))
                 iv_like.setImageResource(R.drawable.like);
             else
@@ -186,10 +186,13 @@ public class MovieDetailFragment extends Fragment {
         return view;
     }
 
+
+
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = activity;
+        mContext = activity;
     }
 
     @Override
@@ -405,7 +408,7 @@ public class MovieDetailFragment extends Fragment {
     public int inDatabase(final String movieID)
     {
         final String id=movieID;
-        dbHelper = new DbHelper(getActivity());
+        dbHelper = new DbHelper(activity);
         if((dbHelper.isInDatabase(Integer.parseInt(movieID))))
             iv_like.setImageResource(R.drawable.like);
         else

@@ -1,19 +1,17 @@
-package com.example.ekta.popularmovies.Adapters;
+package com.example.ekta.popularmovies.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.bumptech.glide.Glide;
-import com.example.ekta.popularmovies.Model.Movie;
+import com.example.ekta.popularmovies.model.Movie;
 import com.example.ekta.popularmovies.R;
-import com.example.ekta.popularmovies.Utilities.VolleySingleton;
+import com.example.ekta.popularmovies.utilities.VolleySingleton;
 
 import java.util.ArrayList;
 

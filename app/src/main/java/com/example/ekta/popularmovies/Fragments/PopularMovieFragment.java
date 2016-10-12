@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Fragments;
+package com.example.ekta.popularmovies.fragments;
 
 
 import android.content.Context;
@@ -22,16 +22,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.ekta.popularmovies.Acitivities.MainActivity;
-import com.example.ekta.popularmovies.Acitivities.MovieDetailActivity;
+import com.example.ekta.popularmovies.activities.MainActivity;
+import com.example.ekta.popularmovies.activities.MovieDetailActivity;
 
-import static com.example.ekta.popularmovies.Utilities.Constants.*;
-import static com.example.ekta.popularmovies.Model.ResponseKeys.*;
-import com.example.ekta.popularmovies.Model.Movie;
-import com.example.ekta.popularmovies.Adapters.PopularMovieAdapter;
+import static com.example.ekta.popularmovies.utilities.Constants.*;
+import static com.example.ekta.popularmovies.model.ResponseKeys.*;
+import com.example.ekta.popularmovies.model.Movie;
+import com.example.ekta.popularmovies.adapters.PopularMovieAdapter;
 import com.example.ekta.popularmovies.R;
-import com.example.ekta.popularmovies.Acitivities.MainActivity;
-import com.example.ekta.popularmovies.Utilities.VolleySingleton;
+import com.example.ekta.popularmovies.utilities.VolleySingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;

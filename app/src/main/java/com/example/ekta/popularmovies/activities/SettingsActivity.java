@@ -1,8 +1,6 @@
-package com.example.ekta.popularmovies.Acitivities;
+package com.example.ekta.popularmovies.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;

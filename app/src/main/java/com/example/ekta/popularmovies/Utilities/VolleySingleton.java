@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Utilities;
+package com.example.ekta.popularmovies.utilities;
 
 import android.content.Context;
 import android.graphics.Bitmap;

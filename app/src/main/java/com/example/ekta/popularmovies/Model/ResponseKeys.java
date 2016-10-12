@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Model;
+package com.example.ekta.popularmovies.model;
 
 /**
  * Created by Ekta on 02-10-2016.

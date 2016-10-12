@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Fragments;
+package com.example.ekta.popularmovies.fragments;
 
 
 import android.content.Intent;
@@ -11,12 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.ekta.popularmovies.Acitivities.MainActivity;
-import com.example.ekta.popularmovies.Acitivities.MovieDetailActivity;
-import com.example.ekta.popularmovies.Adapters.FavouriteAdapter;
-import com.example.ekta.popularmovies.Model.Movie;
+import com.example.ekta.popularmovies.activities.MainActivity;
+import com.example.ekta.popularmovies.activities.MovieDetailActivity;
+import com.example.ekta.popularmovies.adapters.FavouriteAdapter;
+import com.example.ekta.popularmovies.model.Movie;
 import com.example.ekta.popularmovies.R;
-import com.example.ekta.popularmovies.Database.DbHelper;
+import com.example.ekta.popularmovies.database.DbHelper;
 
 import java.util.ArrayList;
 

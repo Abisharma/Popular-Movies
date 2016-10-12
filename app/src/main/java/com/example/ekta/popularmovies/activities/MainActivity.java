@@ -1,12 +1,8 @@
-package com.example.ekta.popularmovies.Acitivities;
+package com.example.ekta.popularmovies.activities;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,9 +13,9 @@ import android.view.MenuItem;
 
 
 
-import com.example.ekta.popularmovies.Fragments.FavouriteFragment;
-import com.example.ekta.popularmovies.Fragments.MovieDetailFragment;
-import com.example.ekta.popularmovies.Fragments.PopularMovieFragment;
+import com.example.ekta.popularmovies.fragments.FavouriteFragment;
+import com.example.ekta.popularmovies.fragments.MovieDetailFragment;
+import com.example.ekta.popularmovies.fragments.PopularMovieFragment;
 import com.example.ekta.popularmovies.R;
 
 public class MainActivity extends AppCompatActivity{

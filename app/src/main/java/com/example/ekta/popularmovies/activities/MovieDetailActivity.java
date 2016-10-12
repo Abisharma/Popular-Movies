@@ -1,11 +1,11 @@
-package com.example.ekta.popularmovies.Acitivities;
+package com.example.ekta.popularmovies.activities;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.ekta.popularmovies.Fragments.MovieDetailFragment;
+import com.example.ekta.popularmovies.fragments.MovieDetailFragment;
 import com.example.ekta.popularmovies.R;
 
 public class MovieDetailActivity extends AppCompatActivity {

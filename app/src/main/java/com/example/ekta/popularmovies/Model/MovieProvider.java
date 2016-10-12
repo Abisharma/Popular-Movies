@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Model;
+package com.example.ekta.popularmovies.model;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import com.example.ekta.popularmovies.Database.DbHelper;
+import com.example.ekta.popularmovies.database.DbHelper;
 
 /**
  * Created by Ekta on 06-10-2016.

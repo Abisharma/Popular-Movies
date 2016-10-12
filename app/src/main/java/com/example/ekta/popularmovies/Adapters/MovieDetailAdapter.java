@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Adapters;
+package com.example.ekta.popularmovies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import static com.example.ekta.popularmovies.Utilities.Constants.*;
+import static com.example.ekta.popularmovies.utilities.Constants.*;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.example.ekta.popularmovies.Model.Movie;
+import com.example.ekta.popularmovies.model.Movie;
 import com.example.ekta.popularmovies.R;
-import com.example.ekta.popularmovies.Utilities.VolleySingleton;
+import com.example.ekta.popularmovies.utilities.VolleySingleton;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.ekta.popularmovies.Database;
+package com.example.ekta.popularmovies.database;
 
 import android.content.Context;
 import android.database.Cursor;
