@@ -42,21 +42,24 @@ public class MainActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 if(fav==false) {
     getSupportActionBar().setTitle(option + " " + this.getString(R.string.movies));
-    PopularMovieFragment popularMovieFragment = new PopularMovieFragment();
+    if(savedInstanceState==null)
+    {  PopularMovieFragment popularMovieFragment = new PopularMovieFragment();
     Intent i = getIntent();
     getSupportFragmentManager().beginTransaction()
             .replace(R.id.mainactivity_container, popularMovieFragment)
-            .commit();
+            .commit();}
 }
         else
 
 {
     getSupportActionBar().setTitle(this.getString(R.string.Favourite) + " " +this.getString(R.string.movies) );
-   FavouriteFragment favouriteFragment = new FavouriteFragment();
-    Intent i = getIntent();
-    getSupportFragmentManager().beginTransaction()
-            .replace(R.id.mainactivity_container, favouriteFragment)
-            .commit();
+    if(savedInstanceState==null) {
+        FavouriteFragment favouriteFragment = new FavouriteFragment();
+        Intent i = getIntent();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mainactivity_container, favouriteFragment)
+                .commit();
+    }
 }
       if(findViewById(R.id.movie_detail_container2)!=null) {
             twoPane=true;

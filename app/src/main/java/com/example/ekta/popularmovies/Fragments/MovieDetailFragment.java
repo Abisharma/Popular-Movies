@@ -116,9 +116,30 @@ public class MovieDetailFragment extends Fragment {
                 }
             });
             fragmentValue = getArguments().getString("fragment");
+
+           ImageView icon = new ImageView(this.activity);
+           icon.setImageResource(R.mipmap.ic_more);
+           SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this.activity);
+           iv_like = new ImageView(getActivity());
+           if (!inDatabase)
+               iv_like.setImageResource(R.drawable.like_hollow_heart);
+           else
+               iv_like.setImageResource(R.drawable.like);
+
+           iv_share = new ImageView(getActivity());
+           iv_share.setImageResource(R.drawable.share);
+
+           SubActionButton button1 = itemBuilder.setContentView(iv_like).build();
+           SubActionButton button2 = itemBuilder.setContentView(iv_share).build();
+
             if (fragmentValue.equals("favourite")) {
                 fab.setVisibility(View.INVISIBLE);
-
+                actionMenu = new FloatingActionMenu.Builder(this.activity)
+                        .addSubActionView(button1)
+                        .addSubActionView(button2)
+                        .attachTo(fab)
+                        .build();
+                fab.setVisibility(View.VISIBLE);
                 favtitle = getArguments().getString("title");
                 favcoverImage = getArguments().getString("coverImage");
                 favaudienceScore = getArguments().getString("audienceScore");
@@ -131,27 +152,16 @@ public class MovieDetailFragment extends Fragment {
 
 
             } else
-              //  fab.setAlpha(1);
-            fab.setVisibility(View.VISIBLE);
-            ImageView icon = new ImageView(getActivity());
-            icon.setImageResource(R.mipmap.ic_more);
-            SubActionButton.Builder itemBuilder = new SubActionButton.Builder(getActivity());
-            iv_like = new ImageView(getActivity());
-            if (!inDatabase)
-                iv_like.setImageResource(R.drawable.like_hollow_heart);
-            else
-                iv_like.setImageResource(R.drawable.like);
+            {
+            fab.setVisibility(View.INVISIBLE);
+                actionMenu = new FloatingActionMenu.Builder(this.activity)
+                        .addSubActionView(button1)
+                        .addSubActionView(button2)
+                        .attachTo(fab)
+                        .build();
+                fab.setVisibility(View.VISIBLE);
+               }
 
-            iv_share = new ImageView(getActivity());
-            iv_share.setImageResource(R.drawable.share);
-
-            SubActionButton button1 = itemBuilder.setContentView(iv_like).build();
-            SubActionButton button2 = itemBuilder.setContentView(iv_share).build();
-            actionMenu = new FloatingActionMenu.Builder(getActivity())
-                    .addSubActionView(button1)
-                    .addSubActionView(button2)
-                    .attachTo(fab)
-                    .build();
 
 
             if (fragmentValue.equals("favourite")) {
@@ -176,7 +186,7 @@ public class MovieDetailFragment extends Fragment {
             } else if ((fragmentValue.equals("popular")))
                 sendjsonRequest(movieID);
 
-           dbHelper = new DbHelper(getActivity());
+           dbHelper = new DbHelper(this.activity);
             if ((dbHelper.isInDatabase(Integer.parseInt(movieID))))
                 iv_like.setImageResource(R.drawable.like);
             else
@@ -189,8 +199,16 @@ public class MovieDetailFragment extends Fragment {
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+        mContext=activity;
     }
 
     @Override
@@ -399,14 +417,16 @@ public class MovieDetailFragment extends Fragment {
 
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+        fab.setVisibility(View.INVISIBLE);
     }
     public int inDatabase(final String movieID)
     {
         final String id=movieID;
-        dbHelper = new DbHelper(getActivity());
+        dbHelper = new DbHelper(this.activity);
         if((dbHelper.isInDatabase(Integer.parseInt(movieID))))
             iv_like.setImageResource(R.drawable.like);
         else

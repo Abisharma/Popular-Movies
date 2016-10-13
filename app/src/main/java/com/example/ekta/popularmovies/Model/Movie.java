@@ -186,17 +186,17 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(title);
-        dest.writeString(urlSelf);
-        dest.writeString(coverImage);
-        dest.writeString(audienceScore);
-        dest.writeString(popularity);
-        dest.writeString(tagLine);
-        dest.writeString(releaseDateTheater);
-        dest.writeString(duration);
-        dest.writeString(genre);
-        dest.writeString(overview);
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.urlSelf);
+        dest.writeString(this.coverImage);
+        dest.writeString(this.audienceScore);
+        dest.writeString(this.popularity);
+        dest.writeString(this.tagLine);
+        dest.writeString(this.releaseDateTheater);
+        dest.writeString(this.duration);
+        dest.writeString(this.genre);
+        dest.writeString(this.overview);
 
 
 
