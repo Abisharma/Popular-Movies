@@ -61,11 +61,13 @@ if(fav==false) {
                 .commit();
     }
 }
-      if(findViewById(R.id.movie_detail_container2)!=null) {
-            twoPane=true;
-            String movieID="271110",urlSelf,fragment="popular";
+        if(savedInstanceState==null) {
+            if (findViewById(R.id.movie_detail_container2) != null) {
+                twoPane = true;
 
-                Bundle bundle1 =new Bundle();
+                String movieID = "-1", urlSelf, fragment = "popular";
+
+                Bundle bundle1 = new Bundle();
                 bundle1.putString("stringId", movieID);
                 bundle1.putString("fragment", fragment);
                 MovieDetailFragment movieDetail;
@@ -75,6 +77,7 @@ if(fav==false) {
                         .replace(R.id.movie_detail_container2, movieDetail)
                         .commit();
 
+            }
         }
 
     }

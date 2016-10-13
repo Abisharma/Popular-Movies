@@ -10,6 +10,7 @@
         android:id="@+id/recyclerView_movie_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.AppBarLayout
@@ -38,6 +39,7 @@
 
 
             <RelativeLayout
+                android:background="@color/colorPrimaryDark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -58,6 +60,15 @@
                     android:padding="3dp"
                     android:src="@drawable/ic_action_name"
                     app:layout_collapseMode="pin" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/emptyString"
+                    android:id="@+id/emptyView"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="30sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="200sp"/>
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.example.ekta.popularmovies.utilities.Constants.*;
@@ -86,6 +87,7 @@ public class MovieDetailFragment extends Fragment {
     FloatingActionButton fab;
     DbHelper dbHelper;
     String dataShare;
+    TextView emptyView;
     ImageView iv_share;
     Boolean inDatabase=false;
     private ArrayList<String> mTrailerInfo = new ArrayList<>();
@@ -94,18 +96,20 @@ public class MovieDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_deatil, container, false);
-       if(!getArguments().getString("stringId").equals("0"))
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_movie_detail);
+        emptyView= (TextView) view.findViewById(R.id.emptyView);
+        movieImage = (ImageView) view.findViewById(R.id.ivMovieImage);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+       if(!getArguments().getString("stringId").equals("-1"))
        {
-            mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_movie_detail);
+            emptyView.setVisibility(View.INVISIBLE);
             mLayoutManager = new LinearLayoutManager(activity);
             mRecyclerView.setLayoutManager(mLayoutManager);
             imageBack = (ImageView) view.findViewById(R.id.ivBack);
-            fab = (FloatingActionButton) view.findViewById(R.id.fab);
             mLayoutManager = new LinearLayoutManager(activity);
             movie = new Movie();
             volleySingleton = VolleySingleton.getInstance(getActivity());
             requestQueue = volleySingleton.getmRequestQueue();
-            movieImage = (ImageView) view.findViewById(R.id.ivMovieImage);
             imageLoader = volleySingleton.getmImageLoader();
             movieID = getArguments().getString("stringId");
             urlSelf = getArguments().getString("urlSelf");
@@ -117,9 +121,9 @@ public class MovieDetailFragment extends Fragment {
             });
             fragmentValue = getArguments().getString("fragment");
 
-           ImageView icon = new ImageView(this.activity);
+           ImageView icon = new ImageView(getActivity());
            icon.setImageResource(R.mipmap.ic_more);
-           SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this.activity);
+           SubActionButton.Builder itemBuilder = new SubActionButton.Builder(getActivity());
            iv_like = new ImageView(getActivity());
            if (!inDatabase)
                iv_like.setImageResource(R.drawable.like_hollow_heart);
@@ -136,7 +140,6 @@ public class MovieDetailFragment extends Fragment {
                 fab.setVisibility(View.INVISIBLE);
                 actionMenu = new FloatingActionMenu.Builder(this.activity)
                         .addSubActionView(button1)
-                        .addSubActionView(button2)
                         .attachTo(fab)
                         .build();
                 fab.setVisibility(View.VISIBLE);
@@ -193,22 +196,34 @@ public class MovieDetailFragment extends Fragment {
                 iv_like.setImageResource(R.drawable.like_hollow_heart);
 
             inDatabase(movieID);
+
         }
+       else
+       {  emptyView.setVisibility(View.VISIBLE);
+           mRecyclerView.setVisibility(View.INVISIBLE);
+           movieImage.setVisibility(View.INVISIBLE);
+           fab.setVisibility(View.INVISIBLE);
+       }
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(!getArguments().getString("stringId").equals("-1"))
+        actionMenu.close(true);
+    }
 
     @Override
     public void onStop() {
         super.onStop();
-
+        fab.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-        mContext=activity;
     }
 
     @Override
