@@ -117,7 +117,7 @@ public class MovieDetailFragment extends Fragment {
             });
             fragmentValue = getArguments().getString("fragment");
             if (fragmentValue.equals("favourite")) {
-                fab.setAlpha(0);
+                fab.setVisibility(View.INVISIBLE);
 
                 favtitle = getArguments().getString("title");
                 favcoverImage = getArguments().getString("coverImage");
@@ -131,7 +131,8 @@ public class MovieDetailFragment extends Fragment {
 
 
             } else
-                fab.setAlpha(1);
+              //  fab.setAlpha(1);
+            fab.setVisibility(View.VISIBLE);
             ImageView icon = new ImageView(getActivity());
             icon.setImageResource(R.mipmap.ic_more);
             SubActionButton.Builder itemBuilder = new SubActionButton.Builder(getActivity());
@@ -161,7 +162,7 @@ public class MovieDetailFragment extends Fragment {
                 movie.setTitle(favtitle);
                 movie.setTagLine(favtagLine);
                 movie.setAudienceScore(favaudienceScore);
-                movie.setPopularity(popularity);
+                movie.setPopularity(favpopularity);
                 movie.setReleasedate(favreleaseDate);
                 movie.setDuration(favduration);
                 movie.setGenre(favgenre);
@@ -175,7 +176,7 @@ public class MovieDetailFragment extends Fragment {
             } else if ((fragmentValue.equals("popular")))
                 sendjsonRequest(movieID);
 
-           dbHelper = new DbHelper(activity);
+           dbHelper = new DbHelper(getActivity());
             if ((dbHelper.isInDatabase(Integer.parseInt(movieID))))
                 iv_like.setImageResource(R.drawable.like);
             else
@@ -187,12 +188,9 @@ public class MovieDetailFragment extends Fragment {
     }
 
 
-
-
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mContext = activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -408,7 +406,7 @@ public class MovieDetailFragment extends Fragment {
     public int inDatabase(final String movieID)
     {
         final String id=movieID;
-        dbHelper = new DbHelper(activity);
+        dbHelper = new DbHelper(getActivity());
         if((dbHelper.isInDatabase(Integer.parseInt(movieID))))
             iv_like.setImageResource(R.drawable.like);
         else
